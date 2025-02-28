@@ -6,10 +6,9 @@ import type { IconName } from '../../assets/icons'
 import Colors from '../../constants/colors'
 import Icon from '@/components/general/IconComponent.vue'
 
-interface WindowProps {
-  closeWindow: () => void
+export interface WindowProps {
+  closeWindow: []
   minimizeWindow: () => void
-  onInteract: () => void
   width: number
   height: number
   top: number
@@ -24,7 +23,9 @@ interface WindowProps {
 }
 
 const props = defineProps<WindowProps>()
-console.log('Window props:', props)
+const emit = defineEmits<{
+  (e: 'interact'): void
+}>()
 
 // Referencias a elementos DOM
 const windowRef = ref<HTMLElement | null>(null)
@@ -45,6 +46,9 @@ const contentWidth = ref(props.width)
 const contentHeight = ref(props.height)
 
 const windowActive = ref(true)
+const setWindowActive = (active: boolean) => {
+  windowActive.value = active
+}
 const isMaximized = ref(false)
 const preMaxSize = reactive({
   width: width.value,
@@ -56,22 +60,20 @@ const isDragging = ref(false)
 const isResizing = ref(false)
 
 // Estilo dinámico de la ventana
-const windowStyle = computed((): CSSProperties => {
-  const style = {
+const windowStyle = computed(
+  (): CSSProperties => ({
     backgroundColor: Colors.lightGray,
     position: 'absolute',
     width: typeof width.value === 'number' ? `${width.value}px` : width.value,
     height: typeof height.value === 'number' ? `${height.value}px` : height.value,
     top: typeof top.value === 'number' ? `${top.value}px` : top.value,
     left: typeof left.value === 'number' ? `${left.value}px` : left.value,
-  }
-  console.log('windowStyle computed:', style)
-  return style
-})
+  }),
+)
 
 // Estilo dinámico de la barra superior
-const topBarStyle = computed((): CSSProperties => {
-  const style = {
+const topBarStyle = computed(
+  (): CSSProperties => ({
     backgroundColor: props.windowBarColor
       ? props.windowBarColor
       : windowActive.value
@@ -83,14 +85,11 @@ const topBarStyle = computed((): CSSProperties => {
     alignItems: 'center',
     paddingRight: '2px',
     boxSizing: 'border-box',
-  }
-  console.log('topBarStyle computed:', style)
-  return style
-})
+  }),
+)
 
 // Funciones de redimensión
 const startResize = (event: MouseEvent) => {
-  console.log('startResize:', event.clientX, event.clientY)
   event.preventDefault()
   isResizing.value = true
   window.addEventListener('mousemove', onResize, false)
@@ -100,14 +99,12 @@ const startResize = (event: MouseEvent) => {
 const onResize = (event: MouseEvent) => {
   const curWidth = event.clientX - left.value
   const curHeight = event.clientY - top.value
-  console.log('onResize:', event.clientX, event.clientY, 'width:', curWidth, 'height:', curHeight)
+
   if (curWidth > 520 && resizeRef.value) {
     resizeRef.value.style.width = `${curWidth}px`
-    console.log('Resize width set to:', resizeRef.value.style.width)
   }
   if (curHeight > 220 && resizeRef.value) {
     resizeRef.value.style.height = `${curHeight}px`
-    console.log('Resize height set to:', resizeRef.value.style.height)
   }
   if (resizeRef.value) {
     resizeRef.value.style.opacity = '1'
@@ -115,7 +112,6 @@ const onResize = (event: MouseEvent) => {
 }
 
 const stopResize = () => {
-  console.log('stopResize fired')
   isResizing.value = false
   if (resizeRef.value) {
     width.value = parseInt(resizeRef.value.style.width)
@@ -133,7 +129,6 @@ const stopResize = () => {
 
 // Funciones de arrastre
 const startDrag = (event: MouseEvent) => {
-  console.log('startDrag:', event.clientX, event.clientY)
   event.preventDefault()
   isDragging.value = true
   dragProps.value = { dragStartX: event.clientX, dragStartY: event.clientY }
@@ -144,7 +139,7 @@ const startDrag = (event: MouseEvent) => {
 const onDrag = (event: MouseEvent) => {
   const { clientX, clientY } = event
   const { x, y } = getXYFromDragProps(clientX, clientY)
-  console.log('onDrag: computed x,y:', x, y)
+
   if (dragRef.value) {
     dragRef.value.style.transform = `translate(${x}px, ${y}px)`
     dragRef.value.style.opacity = '1'
@@ -152,11 +147,10 @@ const onDrag = (event: MouseEvent) => {
 }
 
 const stopDrag = (event: MouseEvent) => {
-  console.log('stopDrag:', event.clientX, event.clientY)
   isDragging.value = false
   const { clientX, clientY } = event
   const { x, y } = getXYFromDragProps(clientX, clientY)
-  console.log('stopDrag: new top, left:', y, x)
+
   top.value = y
   left.value = x
   window.removeEventListener('mousemove', onDrag, false)
@@ -174,7 +168,6 @@ const getXYFromDragProps = (clientX: number, clientY: number): { x: number; y: n
 watch([left, top], ([newLeft, newTop]) => {
   if (dragRef.value) {
     dragRef.value.style.transform = `translate(${newLeft}px, ${newTop}px)`
-    console.log('Updated dragRef transform:', newLeft, newTop)
   }
 })
 
@@ -183,14 +176,12 @@ watch(width, () => {
   if (contentRef.value) {
     const cw = contentRef.value.getBoundingClientRect().width
     contentWidth.value = cw
-    console.log('Content width updated to:', cw)
   }
 })
 watch(height, () => {
   if (contentRef.value) {
     const ch = contentRef.value.getBoundingClientRect().height
     contentHeight.value = ch
-    console.log('Content height updated to:', ch)
   }
 })
 
@@ -198,27 +189,23 @@ watch(height, () => {
 watch(contentWidth, (newVal) => {
   if (props.onWidthChange) {
     props.onWidthChange(newVal)
-    console.log('onWidthChange called with:', newVal)
   }
 })
 watch(contentHeight, (newVal) => {
   if (props.onHeightChange) {
     props.onHeightChange(newVal)
-    console.log('onHeightChange called with:', newVal)
   }
 })
 
 // Maximizar/Restaurar
 const maximize = () => {
   if (isMaximized.value) {
-    console.log('Restoring window from maximized state')
     width.value = preMaxSize.width
     height.value = preMaxSize.height
     top.value = preMaxSize.top
     left.value = preMaxSize.left
     isMaximized.value = false
   } else {
-    console.log('Maximizing window')
     preMaxSize.width = width.value
     preMaxSize.height = height.value
     preMaxSize.top = top.value
@@ -233,15 +220,13 @@ const maximize = () => {
 
 // Control de "actividad"
 const onCheckClick = () => {
-  console.log('onCheckClick: lastClickInside =', lastClickInside.value)
   windowActive.value = lastClickInside.value ? true : false
   lastClickInside.value = false
 }
 
 const onWindowInteract = () => {
-  console.log('onWindowInteract triggered')
-  props.onInteract()
-  windowActive.value = true
+  emit('interact')
+  setWindowActive(true)
   lastClickInside.value = true
 }
 

@@ -93,8 +93,6 @@ const onWindowInteract = (key: string) => {
 // }
 
 const addWindow = (key: string, component: VNode): void => {
-  console.log(`Intentando abrir ventana: ${key}`)
-
   windows[key] = {
     zIndex: getHighestZIndex() + 1,
     minimized: false,
@@ -102,10 +100,9 @@ const addWindow = (key: string, component: VNode): void => {
     name: APPLICATIONS[key].name,
     icon: APPLICATIONS[key].shortcutIcon,
   }
-
-  console.log('Ventanas después de agregar:', windows)
 }
 
+//TODO: Implementar secuencia de apagado
 // const setShutdown = (value: boolean) => {
 //   shutdown.value = value
 // }

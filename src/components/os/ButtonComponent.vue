@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { IconName } from '../../assets/icons'
-import Icon from '@/components/general/IconComponent.vue';
+import Icon from '@/components/general/IconComponent.vue'
 
 interface ButtonProps {
   icon?: IconName
   text?: string
-  onClick?: () => void
 }
 
 const props = defineProps<ButtonProps>()
+const emit = defineEmits(['click'])
 
 // Desestructuramos para facilitar su uso
-const { icon, text, onClick } = props
+const { icon, text } = props
 
 // Estado reactivo para el hover
 const isHovering = ref(false)
@@ -28,7 +28,8 @@ const handleMouseLeave = () => {
 
 const click = (e: MouseEvent) => {
   e.preventDefault()
-  onClick?.()
+  // Emitir el evento click. El padre lo recibirá como función.
+  emit('click', e)
 }
 </script>
 

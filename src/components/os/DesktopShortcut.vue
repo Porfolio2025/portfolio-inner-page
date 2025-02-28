@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import IconComponent from '@/components/general/IconComponent.vue'
 import colors from '@/constants/colors'
 
@@ -9,8 +9,6 @@ const props = defineProps<{
   invertText?: boolean
   onOpen?: () => void
 }>()
-
-console.log('DesktopShortcut props:', props)
 
 const isSelected = ref(false)
 const shortcutId = ref('')
@@ -25,7 +23,7 @@ const requiredIcon = new URL(`../../assets/icons/${icon}.png`, import.meta.url).
 
 const getShortcutId = () => {
   const id = shortcutName.replace(/\s/g, '')
-  console.log('Computed shortcutId:', id)
+
   return `desktop-shortcut-${id}`
 }
 
@@ -34,7 +32,6 @@ watch(
   () => {
     const id = getShortcutId()
     shortcutId.value = id
-    console.log('Set shortcutId to:', id)
   },
   { immediate: true },
 )
@@ -49,7 +46,6 @@ onMounted(() => {
       top: boundingBox.height / 4 + 'px',
     }
     scaledStyle.value = newStyle
-    console.log('Set scaledStyle to:', newStyle)
   }
   window.addEventListener('mousedown', handleClickOutside)
 })
@@ -59,21 +55,17 @@ onUnmounted(() => {
 
 const handleClickOutside = (event: MouseEvent) => {
   const target = event.target as HTMLElement
-  console.log('handleClickOutside, target.id:', target.id, 'shortcutId:', shortcutId.value)
+
   if (target.id !== shortcutId.value) {
     isSelected.value = false
-    console.log('Setting isSelected to false')
   }
   if (!isSelected.value && lastSelected.value) {
     lastSelected.value = false
-    console.log('Resetting lastSelected')
   }
 }
 
 const handleClickShortcut = () => {
-  console.log('handleClickShortcut invoked, doubleClickTimerActive:', doubleClickTimerActive.value)
   if (doubleClickTimerActive.value) {
-    console.log('Double click detected, calling onOpen')
     onOpen?.()
     isSelected.value = false
     doubleClickTimerActive.value = false
@@ -84,7 +76,6 @@ const handleClickShortcut = () => {
   doubleClickTimerActive.value = true
   setTimeout(() => {
     doubleClickTimerActive.value = false
-    console.log('Double click timer reset')
   }, 300)
 }
 </script>
@@ -115,7 +106,7 @@ const handleClickShortcut = () => {
         "
       ></div>
       <!-- Icon Component -->
-      <IconComponent :icon="icon" class="w-8 h-8" />
+      <IconComponent :icon="props.icon" class="w-8 h-8" />
     </div>
     <!-- Texto del shortcut -->
     <div
