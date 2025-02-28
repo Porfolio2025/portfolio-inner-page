@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import type { DosPlayer as Instance, DosPlayerFactoryType } from 'js-dos'
+import type { DosPlayer as Instance, DosPlayerFactoryType } from 'js-dos';
 
-// Se asume que Dos está disponible globalmente según la definición de js-dos
-declare const Dos: DosPlayerFactoryType
+declare const Dos: DosPlayerFactoryType;
 
 interface PlayerProps {
   width: number
@@ -14,40 +13,42 @@ interface PlayerProps {
 const props = defineProps<PlayerProps>()
 
 const rootRef = ref<HTMLDivElement | null>(null)
-const dos = ref<Instance | null>(null)
+let dosInstance: any = null
 
 onMounted(() => {
-  if (!rootRef.value) return
-  const instance = Dos(rootRef.value)
-  dos.value = instance
+  if (rootRef.value) {
+    dosInstance = Dos(rootRef.value)
 
-  // Elimina todos los elementos con la clase 'flex-grow-0'
-  const elements = rootRef.value.getElementsByClassName('flex-grow-0')
-  while (elements.length > 0) {
-    elements[0].remove()
+    // Elimina todos los elementos con la clase 'flex-grow-0'
+    const elements = rootRef.value.getElementsByClassName('flex-grow-0')
+    while (elements.length > 0) {
+      elements[0].remove()
+    }
+
+    // Ejecuta el juego inicialmente
+    if (props.bundleUrl) {
+      dosInstance.run(props.bundleUrl)
+    }
   }
-
-  onUnmounted(() => {
-    instance.stop()
-  })
 })
 
-// Cuando cambie el bundleUrl o cuando ya esté inicializado "dos", ejecuta el juego
+onUnmounted(() => {
+  if (dosInstance) {
+    dosInstance.stop()
+  }
+})
+
+// Observa cambios en bundleUrl y ejecuta el juego en consecuencia
 watch(
   () => props.bundleUrl,
   (newBundleUrl) => {
-    if (dos.value !== null) {
-      dos.value.run(newBundleUrl)
+    if (dosInstance && newBundleUrl) {
+      dosInstance.run(newBundleUrl)
     }
   },
-  { immediate: true },
 )
 </script>
 
 <template>
-  <div
-    ref="rootRef"
-    class="absolute"
-    :style="{ width: props.width + 'px', height: props.height + 'px' }"
-  ></div>
+  <div ref="rootRef" :style="{ width: props.width + 'px', height: props.height + 'px' }"></div>
 </template>

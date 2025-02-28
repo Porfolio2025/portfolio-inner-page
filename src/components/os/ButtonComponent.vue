@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { IconName } from '../../assets/icons'
+import Icon from '@/components/general/IconComponent.vue';
 
 interface ButtonProps {
   icon?: IconName

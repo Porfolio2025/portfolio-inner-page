@@ -337,7 +337,7 @@ onUnmounted(() => {
               class="border border-white border-t-[#86898d] border-l-[#86898d] p-2 ml-2 flex-[0.2857] justify-end"
             >
               <div class="flex items-end">
-                <Icon size="12" icon="windowResize" />
+                <Icon :size="12" icon="windowResize" />
               </div>
             </div>
           </div>

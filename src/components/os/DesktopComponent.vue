@@ -93,16 +93,17 @@ const onWindowInteract = (key: string) => {
 // }
 
 const addWindow = (key: string, component: VNode): void => {
-  windows.value = {
-    ...windows.value,
-    [key]: {
-      zIndex: getHighestZIndex() + 1,
-      minimized: false,
-      component: component,
-      name: APPLICATIONS[key].name,
-      icon: APPLICATIONS[key].shortcutIcon,
-    },
+  console.log(`Intentando abrir ventana: ${key}`)
+
+  windows[key] = {
+    zIndex: getHighestZIndex() + 1,
+    minimized: false,
+    component: component,
+    name: APPLICATIONS[key].name,
+    icon: APPLICATIONS[key].shortcutIcon,
   }
+
+  console.log('Ventanas después de agregar:', windows)
 }
 
 // const setShutdown = (value: boolean) => {
@@ -142,11 +143,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    v-if="!shutdown"
-    class="min-h-full flex-1 bg-blue-500 bg-no-repeat bg-cover bg-center !important"
-
-  >
+  <div v-if="!shutdown" class="min-h-full flex-1">
     <!-- Render de ventanas -->
     <div
       v-for="(win, key) in windows"

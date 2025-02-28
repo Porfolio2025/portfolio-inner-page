@@ -1,13 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="">
   <head>
-    <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite App</title>
+    <link rel="stylesheet" href="/public/js-dos/js-dos.css" />
   </head>
   <body>
     <div id="app"></div>
+    <script>
+      window.onload = () => {
+        addEventListener('mousemove', (event) => {
+          window.parent.postMessage(
+            { clientX: event.clientX, clientY: event.clientY, type: 'mousemove' },
+            '*',
+          )
+        })
+        addEventListener('mousedown', (event) => {
+          window.parent.postMessage({ type: 'mousedown' }, '*')
+        })
+        addEventListener('mouseup', (event) => {
+          window.parent.postMessage({ type: 'mouseup' }, '*')
+        })
+        addEventListener('keydown', (event) => {
+          window.parent.postMessage({ type: 'keydown', key: event.key }, '*')
+        })
+        addEventListener('keyup', (event) => {
+          window.parent.postMessage({ type: 'keyup', key: event.key }, '*')
+        })
+      }
+    </script>
     <script type="module" src="/src/main.ts"></script>
+    <script src="/public/js-dos/js-dos.js"></script>
+    <script>
+      emulators.pathPrefix = '/js-dos/'
+    </script>
   </body>
 </html>
