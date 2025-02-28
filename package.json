@@ -14,15 +14,18 @@
     "test": "vitest"
   },
   "dependencies": {
-    "vue": "^3.5.13",
-    "vue-router": "^4.1.6",
+    "@tailwindcss/vite": "^4.0.9",
     "@vueuse/core": "^10.0.0",
     "@vueuse/motion": "^1.0.0",
     "emulators-ui": "^0.73.9",
     "js-dos": "^7.5.0",
+    "tailwindcss": "^4.0.9",
+    "vue": "^3.5.13",
+    "vue-router": "^4.1.6",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@testing-library/vue": "^6.0.0",
     "@tsconfig/node22": "^22.0.0",
     "@types/node": "^22.13.4",
     "@vitejs/plugin-vue": "^5.2.1",
@@ -37,9 +40,8 @@
     "typescript": "~5.7.3",
     "vite": "^6.1.0",
     "vite-plugin-vue-devtools": "^7.7.2",
-    "vue-tsc": "^2.2.2",
-    "@testing-library/vue": "^6.0.0",
-    "vitest": "^0.34.0"
+    "vitest": "^0.34.0",
+    "vue-tsc": "^2.2.2"
   },
   "pnpm": {
     "overrides": {

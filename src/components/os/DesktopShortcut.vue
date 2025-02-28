@@ -1,0 +1,144 @@
+<script setup lang="ts">
+import { ref, onMounted, onUnmounted, watch, } from 'vue'
+import IconComponent from '@/components/general/IconComponent.vue'
+import colors from '@/constants/colors'
+
+const props = defineProps<{
+  icon: string
+  shortcutName: string
+  invertText?: boolean
+  onOpen?: () => void
+}>()
+
+console.log('DesktopShortcut props:', props)
+
+const isSelected = ref(false)
+const shortcutId = ref('')
+const lastSelected = ref(false)
+const containerRef = ref<HTMLElement | null>(null)
+const scaledStyle = ref<Record<string, any>>({})
+const doubleClickTimerActive = ref(false)
+
+const { icon, shortcutName, invertText, onOpen } = props
+
+const requiredIcon = new URL(`../../assets/icons/${icon}.png`, import.meta.url).href
+
+const getShortcutId = () => {
+  const id = shortcutName.replace(/\s/g, '')
+  console.log('Computed shortcutId:', id)
+  return `desktop-shortcut-${id}`
+}
+
+watch(
+  () => shortcutName,
+  () => {
+    const id = getShortcutId()
+    shortcutId.value = id
+    console.log('Set shortcutId to:', id)
+  },
+  { immediate: true },
+)
+
+onMounted(() => {
+  if (containerRef.value && Object.keys(scaledStyle.value).length === 0) {
+    const boundingBox = containerRef.value.getBoundingClientRect()
+    const newStyle = {
+      transformOrigin: 'center',
+      transform: 'scale(1.5)',
+      left: boundingBox.width / 4 + 'px',
+      top: boundingBox.height / 4 + 'px',
+    }
+    scaledStyle.value = newStyle
+    console.log('Set scaledStyle to:', newStyle)
+  }
+  window.addEventListener('mousedown', handleClickOutside)
+})
+onUnmounted(() => {
+  window.removeEventListener('mousedown', handleClickOutside)
+})
+
+const handleClickOutside = (event: MouseEvent) => {
+  const target = event.target as HTMLElement
+  console.log('handleClickOutside, target.id:', target.id, 'shortcutId:', shortcutId.value)
+  if (target.id !== shortcutId.value) {
+    isSelected.value = false
+    console.log('Setting isSelected to false')
+  }
+  if (!isSelected.value && lastSelected.value) {
+    lastSelected.value = false
+    console.log('Resetting lastSelected')
+  }
+}
+
+const handleClickShortcut = () => {
+  console.log('handleClickShortcut invoked, doubleClickTimerActive:', doubleClickTimerActive.value)
+  if (doubleClickTimerActive.value) {
+    console.log('Double click detected, calling onOpen')
+    onOpen?.()
+    isSelected.value = false
+    doubleClickTimerActive.value = false
+    return
+  }
+  isSelected.value = true
+  lastSelected.value = true
+  doubleClickTimerActive.value = true
+  setTimeout(() => {
+    doubleClickTimerActive.value = false
+    console.log('Double click timer reset')
+  }, 300)
+}
+</script>
+
+<template>
+  <div
+    :id="shortcutId"
+    class="absolute w-14 flex flex-col justify-center items-center text-center"
+    :style="scaledStyle"
+    @mousedown.stop="handleClickShortcut"
+    ref="containerRef"
+  >
+    <!-- Icon container -->
+    <div :id="shortcutId" class="cursor-pointer pb-3">
+      <!-- Icon overlay -->
+      <div
+        :id="shortcutId"
+        class="absolute top-0 w-8 h-8"
+        :style="
+          isSelected
+            ? {
+                backgroundImage: `linear-gradient(45deg, ${colors.blue} 25%, transparent 25%), linear-gradient(-45deg, ${colors.blue} 25%, transparent 25%), linear-gradient(45deg, transparent 75%, ${colors.blue} 75%), linear-gradient(-45deg, transparent 75%, ${colors.blue} 75%)`,
+                backgroundSize: '2px 2px',
+                backgroundPosition: '0 0, 0 1px, 1px -1px, -1px 0px',
+                WebkitMask: `url(${requiredIcon})`,
+              }
+            : {}
+        "
+      ></div>
+      <!-- Icon Component -->
+      <IconComponent :icon="icon" class="w-8 h-8" />
+    </div>
+    <!-- Texto del shortcut -->
+    <div
+      :id="shortcutId"
+      :class="
+        isSelected
+          ? 'border-2 border-blue-500 bg-blue-500'
+          : lastSelected
+            ? 'border border-slate-300'
+            : ''
+      "
+    >
+      <p
+        :id="shortcutId"
+        :class="[
+          'cursor-pointer break-words pr-2 pl-2',
+          'text-[8px]',
+          'font-[MSSerif]',
+          invertText && !isSelected ? 'text-black' : 'text-white',
+        ]"
+      >
+        {{ shortcutName }}
+      </p>
+    </div>
+  </div>
+</template>
