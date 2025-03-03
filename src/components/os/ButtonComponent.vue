@@ -1,46 +1,92 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { IconName } from '../../assets/icons'
+import { ref, computed, defineProps, defineEmits } from 'vue'
+import type { IconName } from '@/assets/icons'
 import Icon from '@/components/general/IconComponent.vue'
+import Colors from '@/constants/colors'
 
+// Interfaz de props
 interface ButtonProps {
   icon?: IconName
   text?: string
+  // En Vue, no necesitamos "onClick" como prop si emitimos un evento
 }
 
+// Definimos props y eventos
 const props = defineProps<ButtonProps>()
-const emit = defineEmits(['click'])
+const emit = defineEmits<{ (e: 'click'): void }>()
 
-// Desestructuramos para facilitar su uso
-const { icon, text } = props
-
-// Estado reactivo para el hover
+// Estado para hover
 const isHovering = ref(false)
 
-// Manejadores de eventos
+// Manejadores de hover
 const handleMouseEnter = () => {
   isHovering.value = true
 }
-
 const handleMouseLeave = () => {
   isHovering.value = false
 }
 
+// Llamamos a "emit('click')" en lugar de "props.onClick()"
 const click = (e: MouseEvent) => {
   e.preventDefault()
-  // Emitir el evento click. El padre lo recibirá como función.
-  emit('click', e)
+  emit('click')
 }
+
+// Computed que replican outerBorderStyle e innerBorderStyle de React
+const outerBorderStyle = computed(() => {
+  // Comenzamos con el estilo base
+  const style: Record<string, string | number> = {
+    border: `1px solid ${Colors.black}`,
+    borderTopColor: Colors.white,
+    borderLeftColor: Colors.white,
+    background: Colors.lightGray,
+    cursor: 'pointer',
+  }
+
+  // Si hay icon, le damos ancho/alto 16x14
+  if (props.icon) {
+    style.width = '16px'
+    style.height = '14px'
+  }
+
+  return style
+})
+
+const innerBorderStyle = computed(() => {
+  const style: Record<string, string | number> = {
+    border: `1px solid ${Colors.darkGray}`,
+    borderTopColor: Colors.lightGray,
+    borderLeftColor: Colors.lightGray,
+    flex: 1,
+    display: 'flex', // para alinear icon/text horizontalmente
+    alignItems: 'center', // si quieres centrar vertical
+  }
+
+  // Si hay texto, agregamos padding
+  if (props.text) {
+    style.padding = '4px'
+  }
+
+  // Si está en hover, cambiamos fondo a darkGray
+  if (isHovering.value) {
+    style.backgroundColor = Colors.darkGray
+  }
+
+  return style
+})
+
+// Si en React había styles.icon, defínelo aquí si necesitas
+// Ej: const iconStyle = { marginRight: '4px' }
 </script>
 
 <template>
   <div
+    :style="outerBorderStyle"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
-    class="border border-black border-t-white border-l-white bg-[#86898d] cursor-pointer"
     @mousedown="click"
   >
-    <div class="border border-[#86898d] border-t-[#c3c6ca] border-l-[#c3c6ca] flex-1">
+    <div :style="innerBorderStyle">
       <Icon v-if="icon" :icon="icon" />
       <p v-if="text">{{ text }}</p>
     </div>

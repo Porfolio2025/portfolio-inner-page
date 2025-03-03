@@ -1,14 +1,27 @@
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted, onUnmounted, watch, defineProps } from 'vue'
+import {
+  ref,
+  reactive,
+  computed,
+  onMounted,
+  onUnmounted,
+  watch,
+  defineProps,
+  defineEmits,
+} from 'vue'
 import type { CSSProperties } from 'vue'
 import Button from './ButtonComponent.vue'
 import type { IconName } from '../../assets/icons'
 import Colors from '../../constants/colors'
+import colors from '../../constants/colors'
 import Icon from '@/components/general/IconComponent.vue'
+import DragIndicator from './DragIndicator.vue'
+import ResizeIndicator from './ResizeIndicator.vue'
 
 export interface WindowProps {
-  closeWindow: []
+  closeWindow: () => void
   minimizeWindow: () => void
+  onInteract: () => void
   width: number
   height: number
   top: number
@@ -23,9 +36,7 @@ export interface WindowProps {
 }
 
 const props = defineProps<WindowProps>()
-const emit = defineEmits<{
-  (e: 'interact'): void
-}>()
+// const emit = defineEmits<{ (e: 'interact'): void }>()
 
 // Referencias a elementos DOM
 const windowRef = ref<HTMLElement | null>(null)
@@ -38,55 +49,154 @@ const dragProps = ref<{ dragStartX: number; dragStartY: number } | null>(null)
 const lastClickInside = ref(false)
 
 // Estado interno de la ventana
-const top = ref(props.top)
-const left = ref(props.left)
-const width = ref(props.width)
-const height = ref(props.height)
-const contentWidth = ref(props.width)
-const contentHeight = ref(props.height)
+const topVal = ref(props.top)
+const leftVal = ref(props.left)
+const widthVal = ref(props.width)
+const heightVal = ref(props.height)
 
 const windowActive = ref(true)
-const setWindowActive = (active: boolean) => {
-  windowActive.value = active
-}
 const isMaximized = ref(false)
-const preMaxSize = reactive({
-  width: width.value,
-  height: height.value,
-  top: top.value,
-  left: left.value,
-})
 const isDragging = ref(false)
 const isResizing = ref(false)
 
-// Estilo dinámico de la ventana
-const windowStyle = computed(
-  (): CSSProperties => ({
-    backgroundColor: Colors.lightGray,
-    position: 'absolute',
-    width: typeof width.value === 'number' ? `${width.value}px` : width.value,
-    height: typeof height.value === 'number' ? `${height.value}px` : height.value,
-    top: typeof top.value === 'number' ? `${top.value}px` : top.value,
-    left: typeof left.value === 'number' ? `${left.value}px` : left.value,
-  }),
-)
+const preMaxSize = reactive({
+  width: widthVal.value,
+  height: heightVal.value,
+  top: topVal.value,
+  left: leftVal.value,
+})
 
-// Estilo dinámico de la barra superior
-const topBarStyle = computed(
-  (): CSSProperties => ({
-    backgroundColor: props.windowBarColor
-      ? props.windowBarColor
-      : windowActive.value
-        ? Colors.blue
-        : Colors.darkGray,
-    width: '100%',
-    height: '20px',
-    display: 'flex',
-    alignItems: 'center',
-    paddingRight: '2px',
-    boxSizing: 'border-box',
-  }),
-)
+// Estilo dinámico de la ventana
+const styleWindow = computed<CSSProperties>(() => ({
+  backgroundColor: Colors.lightGray,
+  position: 'absolute',
+  width: `${widthVal.value}px`,
+  height: `${heightVal.value}px`,
+  top: `${topVal.value}px`,
+  left: `${leftVal.value}px`,
+}))
+
+// Estilos (copiados de React)
+const styleDragHitbox: CSSProperties = {
+  position: 'absolute',
+  width: 'calc(100% - 70px)',
+  height: '48px',
+  zIndex: 10000,
+  top: '-8px',
+  left: '-4px',
+  cursor: 'move',
+}
+
+const styleWindowBorderOuter: CSSProperties = {
+  border: `1px solid ${Colors.black}`,
+  borderTopColor: colors.lightGray,
+  borderLeftColor: colors.lightGray,
+  flex: 1,
+}
+
+const styleWindowBorderInner: CSSProperties = {
+  border: `1px solid ${Colors.darkGray}`,
+  borderTopColor: colors.white,
+  borderLeftColor: colors.white,
+  flex: 1,
+  padding: '2px',
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: Colors.lightGray,
+}
+
+const styleResizeHitbox: CSSProperties = {
+  position: 'absolute',
+  width: '60px',
+  height: '60px',
+  bottom: '-20px',
+  right: '-20px',
+  cursor: 'nwse-resize',
+
+}
+
+const styleTopBar = computed<CSSProperties>(() => ({
+  backgroundColor: props.windowBarColor
+    ? props.windowBarColor
+    : windowActive.value
+      ? Colors.blue
+      : Colors.darkGray,
+  width: '100%',
+  height: '20px',
+  display: 'flex', // AÑADIR
+  alignItems: 'center',
+  paddingRight: '2px',
+  boxSizing: 'border-box',
+}))
+
+const styleWindowHeader: CSSProperties = {
+  flex: 1,
+  display: 'flex',
+  alignItems: 'center',
+}
+
+const styleWindowBarIcon: CSSProperties = {
+  paddingLeft: '4px',
+  paddingRight: '4px',
+}
+
+const styleWindowTopButtons: CSSProperties = {
+  display: 'flex', // AÑADIR
+  alignItems: 'center',
+}
+
+const styleContentOuter: CSSProperties = {
+  border: `1px solid ${Colors.white}`,
+  borderTopColor: colors.darkGray,
+  borderLeftColor: colors.darkGray,
+  flexGrow: 1,
+  marginTop: '8px',
+  marginBottom: '8px',
+  overflow: 'hidden',
+}
+
+const styleContentInner: CSSProperties = {
+  border: `2px solid ${Colors.lightGray}`,
+  borderTopColor: colors.black,
+  borderLeftColor: colors.black,
+  flex: 1,
+  overflow: 'hidden',
+}
+
+const styleContent: CSSProperties = {
+  flex: 1,
+  position: 'relative',
+  overflowX: 'hidden',
+  backgroundColor: Colors.white,
+}
+
+const styleBottomBar: CSSProperties = {
+  flexShrink: 1,
+  width: '100%',
+  height: '20px',
+  display: 'flex', // AÑADIR
+  backgroundColor: Colors.lightGray,
+}
+
+const styleBottomSpacer: CSSProperties = {
+  width: '16px',
+  marginLeft: '2px',
+}
+
+const styleInsetBorder: CSSProperties = {
+  border: `1px solid ${Colors.white}`,
+  borderTopColor: colors.darkGray,
+  borderLeftColor: colors.darkGray,
+  padding: '2px',
+}
+
+const styleBottomResizeContainer: CSSProperties = {
+  flex: 2 / 7,
+  display: 'flex',
+  justifyContent: 'flex-end',
+  padding: 0,
+  marginLeft: '2px',
+}
 
 // Funciones de redimensión
 const startResize = (event: MouseEvent) => {
@@ -97,9 +207,8 @@ const startResize = (event: MouseEvent) => {
 }
 
 const onResize = (event: MouseEvent) => {
-  const curWidth = event.clientX - left.value
-  const curHeight = event.clientY - top.value
-
+  const curWidth = event.clientX - leftVal.value
+  const curHeight = event.clientY - topVal.value
   if (curWidth > 520 && resizeRef.value) {
     resizeRef.value.style.width = `${curWidth}px`
   }
@@ -114,8 +223,8 @@ const onResize = (event: MouseEvent) => {
 const stopResize = () => {
   isResizing.value = false
   if (resizeRef.value) {
-    width.value = parseInt(resizeRef.value.style.width)
-    height.value = parseInt(resizeRef.value.style.height)
+    widthVal.value = parseInt(resizeRef.value.style.width)
+    heightVal.value = parseInt(resizeRef.value.style.height)
     console.log(
       'Final width and height:',
       resizeRef.value.style.width,
@@ -139,7 +248,6 @@ const startDrag = (event: MouseEvent) => {
 const onDrag = (event: MouseEvent) => {
   const { clientX, clientY } = event
   const { x, y } = getXYFromDragProps(clientX, clientY)
-
   if (dragRef.value) {
     dragRef.value.style.transform = `translate(${x}px, ${y}px)`
     dragRef.value.style.opacity = '1'
@@ -150,9 +258,8 @@ const stopDrag = (event: MouseEvent) => {
   isDragging.value = false
   const { clientX, clientY } = event
   const { x, y } = getXYFromDragProps(clientX, clientY)
-
-  top.value = y
-  left.value = x
+  topVal.value = y
+  leftVal.value = x
   window.removeEventListener('mousemove', onDrag, false)
   window.removeEventListener('mouseup', stopDrag, false)
 }
@@ -160,38 +267,24 @@ const stopDrag = (event: MouseEvent) => {
 const getXYFromDragProps = (clientX: number, clientY: number): { x: number; y: number } => {
   if (!dragProps.value) return { x: 0, y: 0 }
   const { dragStartX, dragStartY } = dragProps.value
-  const x = clientX - dragStartX + left.value
-  const y = clientY - dragStartY + top.value
+  const x = clientX - dragStartX + leftVal.value
+  const y = clientY - dragStartY + topVal.value
   return { x, y }
 }
 
-watch([left, top], ([newLeft, newTop]) => {
+watch([leftVal, topVal], ([newLeft, newTop]) => {
   if (dragRef.value) {
     dragRef.value.style.transform = `translate(${newLeft}px, ${newTop}px)`
   }
 })
 
-// Actualizar dimensiones del contenido
-watch(width, () => {
-  if (contentRef.value) {
-    const cw = contentRef.value.getBoundingClientRect().width
-    contentWidth.value = cw
-  }
-})
-watch(height, () => {
-  if (contentRef.value) {
-    const ch = contentRef.value.getBoundingClientRect().height
-    contentHeight.value = ch
-  }
-})
-
-// Notificar cambios a través de callbacks
-watch(contentWidth, (newVal) => {
+// Watchers para notificar cambios a través de callbacks
+watch(widthVal, (newVal) => {
   if (props.onWidthChange) {
     props.onWidthChange(newVal)
   }
 })
-watch(contentHeight, (newVal) => {
+watch(heightVal, (newVal) => {
   if (props.onHeightChange) {
     props.onHeightChange(newVal)
   }
@@ -200,20 +293,20 @@ watch(contentHeight, (newVal) => {
 // Maximizar/Restaurar
 const maximize = () => {
   if (isMaximized.value) {
-    width.value = preMaxSize.width
-    height.value = preMaxSize.height
-    top.value = preMaxSize.top
-    left.value = preMaxSize.left
+    widthVal.value = preMaxSize.width
+    heightVal.value = preMaxSize.height
+    topVal.value = preMaxSize.top
+    leftVal.value = preMaxSize.left
     isMaximized.value = false
   } else {
-    preMaxSize.width = width.value
-    preMaxSize.height = height.value
-    preMaxSize.top = top.value
-    preMaxSize.left = left.value
-    width.value = window.innerWidth
-    height.value = window.innerHeight - 32
-    top.value = 0
-    left.value = 0
+    preMaxSize.width = widthVal.value
+    preMaxSize.height = heightVal.value
+    preMaxSize.top = topVal.value
+    preMaxSize.left = leftVal.value
+    widthVal.value = window.innerWidth
+    heightVal.value = window.innerHeight - 32
+    topVal.value = 0
+    leftVal.value = 0
     isMaximized.value = true
   }
 }
@@ -225,8 +318,8 @@ const onCheckClick = () => {
 }
 
 const onWindowInteract = () => {
-  emit('interact')
-  setWindowActive(true)
+  props.onInteract()
+  windowActive.value = true
   lastClickInside.value = true
 }
 
@@ -241,87 +334,64 @@ onUnmounted(() => {
 <template>
   <div @mousedown="onWindowInteract">
     <!-- Ventana principal -->
-    <div ref="windowRef" :style="windowStyle">
-      <!-- Outer Border -->
-      <div class="border border-black border-t-[#c3c6ca] border-l-[#c3c6ca] flex-1">
-        <!-- Inner Border -->
-        <div
-          class="border border-[#86898d] border-t-[#ffffff] border-l-[#ffffff] flex-1 p-2 flex flex-col"
-        >
-          <!-- Zona para arrastrar -->
-          <div
-            class="absolute cursor-move z-[10000]"
-            style="width: calc(100% - 70px); height: 48px; top: -8px; left: -4px"
-            @mousedown="startDrag"
-          ></div>
+    <div :style="styleWindow" ref="windowRef">
+      <div :style="styleWindowBorderOuter">
+        <div :style="styleWindowBorderInner">
+          <!-- Drag Hitbox -->
+          <div :style="styleDragHitbox" @mousedown="startDrag"></div>
           <!-- Barra superior -->
-          <div :class="{ 'rainbow-wrapper': props.rainbow }" :style="topBarStyle">
-            <div class="flex-1">
+          <div
+            :class="[props.rainbow ? 'rainbow-wrapper' : '']"
+            :style="[
+              styleTopBar,
+              props.windowBarColor && { backgroundColor: props.windowBarColor },
+              !windowActive ? { backgroundColor: Colors.darkGray } : {},
+            ]"
+          >
+            <div :style="styleWindowHeader">
               <template v-if="props.windowBarIcon">
                 <Icon
                   :icon="props.windowBarIcon"
-                  :style="
-                    Object.assign(
-                      { paddingLeft: '4px', paddingRight: '4px' },
-                      !windowActive ? { opacity: 0.5 } : {},
-                    )
-                  "
+                  :style="[styleWindowBarIcon, !windowActive ? { opacity: 0.5 } : {}]"
                   :size="16"
                 />
               </template>
               <template v-else>
-                <div class="w-4"></div>
+                <div style="width: 16px"></div>
               </template>
-              <p :class="!windowActive ? 'text-[#c3c6ca]' : ''" class="showcase-header">
+              <p class="showcase-header" :style="!windowActive ? { color: colors.lightGray } : {}">
                 {{ props.windowTitle }}
               </p>
             </div>
-            <div class="flex items-center">
+            <div :style="styleWindowTopButtons">
               <Button icon="minimize" @click="props.minimizeWindow" />
               <Button icon="maximize" @click="maximize" />
-              <div class="pl-[2px]">
+              <div style="padding-left: 2px">
                 <Button icon="close" @click="props.closeWindow" />
               </div>
             </div>
           </div>
-          <!-- Contenido de la ventana -->
-          <div
-            class="border border-white border-t-[#86898d] border-l-[#86898d] flex-grow mt-2 mb-2 overflow-hidden"
-          >
-            <div
-              class="border border-[#c3c6ca] border-t-black border-l-black flex-1 overflow-hidden"
-            >
-              <div class="flex-1 relative overflow-x-hidden bg-white" ref="contentRef">
+          <!-- Contenido -->
+          <div :style="styleContentOuter">
+            <div :style="styleContentInner">
+              <div :style="styleContent" ref="contentRef">
                 <slot />
               </div>
             </div>
           </div>
-          <!-- Zona de redimensión -->
-          <div
-            class="absolute cursor-[nwse-resize]"
-            style="width: 60px; height: 60px; bottom: -20px; right: -20px"
-            @mousedown="startResize"
-          ></div>
+          <!-- Resize Hitbox -->
+          <div :style="styleResizeHitbox" @mousedown="startResize"></div>
           <!-- Barra inferior -->
-          <div class="flex-shrink w-full h-5">
-            <div
-              class="border border-white border-t-[#86898d] border-l-[#86898d] p-2 flex items-center"
-              style="flex: 0.7143"
-            >
-              <p class="text-[12px] ml-1 font-[MSSerif]">
+          <div :style="styleBottomBar">
+            <div :style="[styleInsetBorder, { flex: 5 / 7, alignItems: 'center' }]">
+              <p style="font-size: 12px; margin-left: 4px; font-family: MSSerif; color: black">
                 {{ props.bottomLeftText }}
               </p>
             </div>
-            <div
-              class="border border-white border-t-[#86898d] border-l-[#86898d] p-2 w-4 ml-2"
-            ></div>
-            <div
-              class="border border-white border-t-[#86898d] border-l-[#86898d] p-2 w-4 ml-2"
-            ></div>
-            <div
-              class="border border-white border-t-[#86898d] border-l-[#86898d] p-2 ml-2 flex-[0.2857] justify-end"
-            >
-              <div class="flex items-end">
+            <div :style="[styleInsetBorder, styleBottomSpacer]"></div>
+            <div :style="[styleInsetBorder, styleBottomSpacer]"></div>
+            <div :style="[styleInsetBorder, styleBottomResizeContainer]">
+              <div style="align-items: flex-end">
                 <Icon :size="12" icon="windowResize" />
               </div>
             </div>
@@ -329,6 +399,33 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-    <!-- Opcional: Indicadores de redimensión o arrastre -->
+
+    <!-- Indicador de redimensión -->
+    <div
+      :style="
+        !isResizing
+          ? { zIndex: -10000, pointerEvents: 'none' }
+          : { zIndex: 1000, cursor: 'nwse-resize', mixBlendMode: 'difference' }
+      "
+    >
+      <ResizeIndicator
+        :top="topVal"
+        :left="leftVal"
+        :width="widthVal"
+        :height="heightVal"
+        :resizeRef="resizeRef"
+      />
+    </div>
+
+    <!-- Indicador de arrastre -->
+    <div
+      :style="
+        !isDragging
+          ? { zIndex: -10000, pointerEvents: 'none' }
+          : { zIndex: 1000, cursor: 'move', mixBlendMode: 'difference' }
+      "
+    >
+      <DragIndicator :width="widthVal" :height="heightVal" :dragRef="dragRef" />
+    </div>
   </div>
 </template>
