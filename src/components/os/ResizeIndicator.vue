@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
-import styles from './DragIndicator.vue' // Asegúrate de que styles es de tipo Record<string, CSSProperties>
+import styles from './DragIndicator.vue'
 
 interface ResizeIndicatorProps {
   resizeRef: any

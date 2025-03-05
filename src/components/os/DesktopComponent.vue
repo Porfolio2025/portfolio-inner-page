@@ -4,12 +4,12 @@ import { ref, reactive, onMounted, watch, h } from 'vue'
 import type { VNode } from 'vue'
 import type { IconName } from '@/assets/icons'
 import DesktopShortcut from '@/components/os/DesktopShortcut.vue'
-
+import Toolbar from '@/components/os/ToolbarComponent.vue'
 import Doom from '../applications/DoomApp.vue'
 const windows = reactive<Record<string, any>>({})
 const shortcuts = ref<any[]>([])
 const shutdown = ref(false)
-// const numShutdowns = ref(1)
+const numShutdowns = ref(1)
 
 interface Application {
   key: string
@@ -19,12 +19,6 @@ interface Application {
 }
 
 const APPLICATIONS: Record<string, Application> = {
-  // trail: {
-  //   key: 'trail',
-  //   name: 'The Oregon Trail',
-  //   shortcutIcon: 'trailIcon',
-  //   component: OregonTrail,
-  // },
   doom: {
     key: 'doom',
     name: 'Doom',
@@ -68,16 +62,16 @@ const minimizeWindow = (key: string) => {
   }
 }
 
-// const toggleMinimize = (key: string) => {
-//   const win = windows[key]
-//   if (win) {
-//     const highestIndex = getHighestZIndex()
-//     if (win.minimized || win.zIndex === highestIndex) {
-//       win.minimized = !win.minimized
-//     }
-//     win.zIndex = getHighestZIndex() + 1
-//   }
-// }
+const toggleMinimize = (key: string) => {
+  const win = windows[key]
+  if (win) {
+    const highestIndex = getHighestZIndex()
+    if (win.minimized || win.zIndex === highestIndex) {
+      win.minimized = !win.minimized
+    }
+    win.zIndex = getHighestZIndex() + 1
+  }
+}
 
 const onWindowInteract = (key: string) => {
   if (windows[key]) {
@@ -85,12 +79,12 @@ const onWindowInteract = (key: string) => {
   }
 }
 
-// const startShutdown = () => {
-//   setTimeout(() => {
-//     shutdown.value = true
-//     numShutdowns.value++
-//   }, 600)
-// }
+const startShutdown = () => {
+  setTimeout(() => {
+    shutdown.value = true
+    numShutdowns.value++
+  }, 600)
+}
 
 const addWindow = (key: string, component: VNode): void => {
   windows[key] = {
@@ -102,10 +96,9 @@ const addWindow = (key: string, component: VNode): void => {
   }
 }
 
-//TODO: Implementar secuencia de apagado
-// const setShutdown = (value: boolean) => {
-//   shutdown.value = value
-// }
+const setShutdown = (value: boolean) => {
+  shutdown.value = value
+}
 
 onMounted(() => {
   const newShortcuts: any[] = []
@@ -128,7 +121,6 @@ onMounted(() => {
     })
   })
 
-  // Abrir automáticamente el shortcut "My Showcase"
   newShortcuts.forEach((shortcut) => {
     if (shortcut.shortcutName === 'Doom') {
       shortcut.onOpen()
@@ -172,7 +164,7 @@ onMounted(() => {
     </div>
 
     <!-- Toolbar -->
-    <!-- <Toolbar :windows="windows" :toggleMinimize="toggleMinimize" :shutdown="startShutdown" /> -->
+    <Toolbar :windows="windows" :toggleMinimize="toggleMinimize" :shutdown="startShutdown" />
   </div>
 
   <!-- Secuencia de apagado -->

@@ -5,9 +5,8 @@ import Window from '../os/WindowComponent.vue'
 
 interface DoomAppProps {
   onClose: []
-  onInteract: () => void;
+  onInteract: () => void
   onMinimize: () => void
-  // Puedes agregar más propiedades si es necesario (por ejemplo, extendiendo WindowAppProps)
 }
 
 const props = defineProps<DoomAppProps>()

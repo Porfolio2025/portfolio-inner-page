@@ -36,19 +36,15 @@ export interface WindowProps {
 }
 
 const props = defineProps<WindowProps>()
-// const emit = defineEmits<{ (e: 'interact'): void }>()
 
-// Referencias a elementos DOM
 const windowRef = ref<HTMLElement | null>(null)
 const dragRef = ref<HTMLElement | null>(null)
 const contentRef = ref<HTMLElement | null>(null)
 const resizeRef = ref<HTMLElement | null>(null)
 
-// Estado para arrastre y redimensión
 const dragProps = ref<{ dragStartX: number; dragStartY: number } | null>(null)
 const lastClickInside = ref(false)
 
-// Estado interno de la ventana
 const topVal = ref(props.top)
 const leftVal = ref(props.left)
 const widthVal = ref(props.width)
@@ -66,7 +62,6 @@ const preMaxSize = reactive({
   left: leftVal.value,
 })
 
-// Estilo dinámico de la ventana
 const styleWindow = computed<CSSProperties>(() => ({
   backgroundColor: Colors.lightGray,
   position: 'absolute',
@@ -76,7 +71,6 @@ const styleWindow = computed<CSSProperties>(() => ({
   left: `${leftVal.value}px`,
 }))
 
-// Estilos (copiados de React)
 const styleDragHitbox: CSSProperties = {
   position: 'absolute',
   width: 'calc(100% - 70px)',
@@ -112,7 +106,6 @@ const styleResizeHitbox: CSSProperties = {
   bottom: '-20px',
   right: '-20px',
   cursor: 'nwse-resize',
-
 }
 
 const styleTopBar = computed<CSSProperties>(() => ({
@@ -123,7 +116,7 @@ const styleTopBar = computed<CSSProperties>(() => ({
       : Colors.darkGray,
   width: '100%',
   height: '20px',
-  display: 'flex', // AÑADIR
+  display: 'flex',
   alignItems: 'center',
   paddingRight: '2px',
   boxSizing: 'border-box',
@@ -141,7 +134,7 @@ const styleWindowBarIcon: CSSProperties = {
 }
 
 const styleWindowTopButtons: CSSProperties = {
-  display: 'flex', // AÑADIR
+  display: 'flex',
   alignItems: 'center',
 }
 
@@ -174,7 +167,7 @@ const styleBottomBar: CSSProperties = {
   flexShrink: 1,
   width: '100%',
   height: '20px',
-  display: 'flex', // AÑADIR
+  display: 'flex',
   backgroundColor: Colors.lightGray,
 }
 
@@ -198,7 +191,6 @@ const styleBottomResizeContainer: CSSProperties = {
   marginLeft: '2px',
 }
 
-// Funciones de redimensión
 const startResize = (event: MouseEvent) => {
   event.preventDefault()
   isResizing.value = true
@@ -236,7 +228,6 @@ const stopResize = () => {
   window.removeEventListener('mouseup', stopResize, false)
 }
 
-// Funciones de arrastre
 const startDrag = (event: MouseEvent) => {
   event.preventDefault()
   isDragging.value = true
@@ -278,7 +269,6 @@ watch([leftVal, topVal], ([newLeft, newTop]) => {
   }
 })
 
-// Watchers para notificar cambios a través de callbacks
 watch(widthVal, (newVal) => {
   if (props.onWidthChange) {
     props.onWidthChange(newVal)
@@ -290,7 +280,6 @@ watch(heightVal, (newVal) => {
   }
 })
 
-// Maximizar/Restaurar
 const maximize = () => {
   if (isMaximized.value) {
     widthVal.value = preMaxSize.width
@@ -311,7 +300,6 @@ const maximize = () => {
   }
 }
 
-// Control de "actividad"
 const onCheckClick = () => {
   windowActive.value = lastClickInside.value ? true : false
   lastClickInside.value = false

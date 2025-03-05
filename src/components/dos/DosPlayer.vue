@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import type { DosPlayer as Instance, DosPlayerFactoryType } from 'js-dos';
+import type { DosPlayer as Instance, DosPlayerFactoryType } from 'js-dos'
 
-declare const Dos: DosPlayerFactoryType;
+declare const Dos: DosPlayerFactoryType
 
 interface PlayerProps {
   width: number
@@ -19,13 +19,11 @@ onMounted(() => {
   if (rootRef.value) {
     dosInstance = Dos(rootRef.value)
 
-    // Elimina todos los elementos con la clase 'flex-grow-0'
     const elements = rootRef.value.getElementsByClassName('flex-grow-0')
     while (elements.length > 0) {
       elements[0].remove()
     }
 
-    // Ejecuta el juego inicialmente
     if (props.bundleUrl) {
       dosInstance.run(props.bundleUrl)
     }
@@ -38,7 +36,6 @@ onUnmounted(() => {
   }
 })
 
-// Observa cambios en bundleUrl y ejecuta el juego en consecuencia
 watch(
   () => props.bundleUrl,
   (newBundleUrl) => {

@@ -13,7 +13,6 @@ interface DragIndicatorProps {
 
 const props = defineProps<DragIndicatorProps>()
 
-// Definimos un objeto de estilos similar al de React:
 const styles = computed<Record<string, CSSProperties>>(() => ({
   draggable: {
     opacity: 0,
