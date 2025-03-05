@@ -132,6 +132,11 @@ code {
     src: url(./assets/fonts/Terminal.ttf);
 }
 
+@font-face {
+    font-family: lores-15-bold-alt-oakland;
+    src: url(./assets/fonts/LoRes15OTAltOakland-Bold.ttf);
+}
+
 
 * {
     -webkit-touch-callout: none;
@@ -161,7 +166,7 @@ p b {
 }
 
 .showcase-header {
-    font-family: lores-15-bold-alt-oakland;
+    font-family: lores-15-bold-alt-oakland, sans-serif;
     font-size: 15px;
     color: white;
 }
