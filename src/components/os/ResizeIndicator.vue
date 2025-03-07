@@ -14,7 +14,6 @@ const props = defineProps<ResizeIndicatorProps>()
 </script>
 
 <template>
-  <!-- Combina los estilos de "draggable" con las dimensiones y posición dinámicas -->
   <div
     :style="[
       styles.draggable,
@@ -27,7 +26,6 @@ const props = defineProps<ResizeIndicatorProps>()
     ]"
     :ref="props.resizeRef"
   >
-    <!-- Elemento auxiliar, similar al div vacío en React -->
     <div
       :style="{
         position: 'absolute',
@@ -37,14 +35,14 @@ const props = defineProps<ResizeIndicatorProps>()
         right: '-20px',
       }"
     ></div>
-    <!-- Barra horizontal superior -->
+
     <div :style="[styles.hozDrag, styles.checkerboard]"></div>
-    <!-- Contenedor vertical con dos barras horizontales internas -->
+
     <div :style="styles.vertDragContainer">
       <div :style="[styles.vertDrag, styles.checkerboard]"></div>
       <div :style="[styles.vertDrag, styles.checkerboard]"></div>
     </div>
-    <!-- Barra horizontal inferior -->
+
     <div :style="[styles.hozDrag, styles.checkerboard]"></div>
   </div>
 </template>

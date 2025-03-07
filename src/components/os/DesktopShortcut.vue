@@ -88,9 +88,7 @@ const handleClickShortcut = () => {
     @mousedown.stop="handleClickShortcut"
     ref="containerRef"
   >
-    <!-- Icon container -->
     <div :id="shortcutId" class="cursor-pointer pb-3">
-      <!-- Icon overlay -->
       <div
         :id="shortcutId"
         class="absolute top-0 w-8 h-8"
@@ -105,10 +103,10 @@ const handleClickShortcut = () => {
             : {}
         "
       ></div>
-      <!-- Icon Component -->
+
       <IconComponent :icon="props.icon" class="w-8 h-8" />
     </div>
-    <!-- Texto del shortcut -->
+
     <div
       :id="shortcutId"
       :class="

@@ -304,7 +304,6 @@ const timeText = computed<CSSProperties>(() => ({
 
 <template>
   <div :style="toolbarOuter">
-    <!-- Start Window (menú de inicio) -->
     <div v-if="startWindowOpen" @mousedown="onStartWindowClicked" :style="startWindow">
       <div :style="startWindowInner">
         <div :style="verticalStartContainer">
@@ -321,10 +320,8 @@ const timeText = computed<CSSProperties>(() => ({
       </div>
     </div>
 
-    <!-- Barra de tareas -->
     <div :style="toolbarInner">
       <div :style="toolbar">
-        <!-- Botón de inicio -->
         <div
           :style="[startContainerOuter, startWindowOpen && activeTabOuter]"
           @mousedown="toggleStartWindow"
@@ -335,7 +332,6 @@ const timeText = computed<CSSProperties>(() => ({
           </div>
         </div>
 
-        <!-- Pestañas de ventanas -->
         <div :style="toolbarTabsContainer">
           <div
             v-for="(win, key) in windows"
@@ -351,7 +347,6 @@ const timeText = computed<CSSProperties>(() => ({
         </div>
       </div>
 
-      <!-- Reloj y control de volumen -->
       <div :style="timeStyle">
         <Icon :style="volumeIcon" icon="volumeOn" />
         <p :style="timeText">{{ time }}</p>

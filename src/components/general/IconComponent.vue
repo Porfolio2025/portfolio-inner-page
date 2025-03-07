@@ -6,7 +6,7 @@ import { computed } from 'vue'
 interface IconProps {
   icon: IconName
   style?: Record<string, any>
-  size?: string
+  size?: string | number
 }
 
 const props = defineProps<IconProps>()

@@ -1,14 +1,5 @@
 <script setup lang="ts">
-import {
-  ref,
-  reactive,
-  computed,
-  onMounted,
-  onUnmounted,
-  watch,
-  defineProps,
-  defineEmits,
-} from 'vue'
+import { ref, reactive, computed, onMounted, onUnmounted, watch, defineProps, nextTick } from 'vue'
 import type { CSSProperties } from 'vue'
 import Button from './ButtonComponent.vue'
 import type { IconName } from '../../assets/icons'
@@ -42,7 +33,9 @@ const dragRef = ref<HTMLElement | null>(null)
 const contentRef = ref<HTMLElement | null>(null)
 const resizeRef = ref<HTMLElement | null>(null)
 
-const dragProps = ref<{ dragStartX: number; dragStartY: number } | null>(null)
+const dragIndicatorRef = ref<any>(null)
+
+const dragProps = ref<{ offsetX: number; offsetY: number } | null>(null)
 const lastClickInside = ref(false)
 
 const topVal = ref(props.top)
@@ -73,12 +66,10 @@ const styleWindow = computed<CSSProperties>(() => ({
 
 const styleDragHitbox: CSSProperties = {
   position: 'absolute',
-  width: 'calc(100% - 70px)',
-  height: '48px',
-  zIndex: 10000,
-  top: '-8px',
-  left: '-4px',
-  cursor: 'move',
+  top: '0',
+  left: '0',
+  width: '100%',
+  height: '20px',
 }
 
 const styleWindowBorderOuter: CSSProperties = {
@@ -231,36 +222,41 @@ const stopResize = () => {
 const startDrag = (event: MouseEvent) => {
   event.preventDefault()
   isDragging.value = true
-  dragProps.value = { dragStartX: event.clientX, dragStartY: event.clientY }
+
+  dragProps.value = {
+    offsetX: event.clientX - leftVal.value,
+    offsetY: event.clientY - topVal.value,
+  }
+
+  nextTick(() => {
+    onDrag(event)
+  })
+
   window.addEventListener('mousemove', onDrag, false)
   window.addEventListener('mouseup', stopDrag, false)
 }
 
 const onDrag = (event: MouseEvent) => {
-  const { clientX, clientY } = event
-  const { x, y } = getXYFromDragProps(clientX, clientY)
-  if (dragRef.value) {
-    dragRef.value.style.transform = `translate(${x}px, ${y}px)`
-    dragRef.value.style.opacity = '1'
+  if (!dragProps.value) return
+
+  const newLeft = event.clientX - dragProps.value.offsetX
+  const newTop = event.clientY - dragProps.value.offsetY
+
+  if (dragIndicatorRef.value?.dragRef) {
+    dragIndicatorRef.value.dragRef.style.transform = `translate(${newLeft}px, ${newTop}px)`
   }
 }
 
 const stopDrag = (event: MouseEvent) => {
   isDragging.value = false
-  const { clientX, clientY } = event
-  const { x, y } = getXYFromDragProps(clientX, clientY)
-  topVal.value = y
-  leftVal.value = x
+  if (!dragProps.value) return
+
+  leftVal.value = event.clientX - dragProps.value.offsetX
+  topVal.value = event.clientY - dragProps.value.offsetY
+
+  dragProps.value = null
   window.removeEventListener('mousemove', onDrag, false)
   window.removeEventListener('mouseup', stopDrag, false)
-}
-
-const getXYFromDragProps = (clientX: number, clientY: number): { x: number; y: number } => {
-  if (!dragProps.value) return { x: 0, y: 0 }
-  const { dragStartX, dragStartY } = dragProps.value
-  const x = clientX - dragStartX + leftVal.value
-  const y = clientY - dragStartY + topVal.value
-  return { x, y }
 }
 
 watch([leftVal, topVal], ([newLeft, newTop]) => {
@@ -321,13 +317,11 @@ onUnmounted(() => {
 
 <template>
   <div @mousedown="onWindowInteract">
-    <!-- Ventana principal -->
     <div :style="styleWindow" ref="windowRef">
       <div :style="styleWindowBorderOuter">
         <div :style="styleWindowBorderInner">
-          <!-- Drag Hitbox -->
           <div :style="styleDragHitbox" @mousedown="startDrag"></div>
-          <!-- Barra superior -->
+
           <div
             :class="[props.rainbow ? 'rainbow-wrapper' : '']"
             :style="[
@@ -341,7 +335,7 @@ onUnmounted(() => {
                 <Icon
                   :icon="props.windowBarIcon"
                   :style="[styleWindowBarIcon, !windowActive ? { opacity: 0.5 } : {}]"
-                  :size="16"
+                  :size="18"
                 />
               </template>
               <template v-else>
@@ -359,7 +353,7 @@ onUnmounted(() => {
               </div>
             </div>
           </div>
-          <!-- Contenido -->
+
           <div :style="styleContentOuter">
             <div :style="styleContentInner">
               <div :style="styleContent" ref="contentRef">
@@ -367,9 +361,9 @@ onUnmounted(() => {
               </div>
             </div>
           </div>
-          <!-- Resize Hitbox -->
+
           <div :style="styleResizeHitbox" @mousedown="startResize"></div>
-          <!-- Barra inferior -->
+
           <div :style="styleBottomBar">
             <div :style="[styleInsetBorder, { flex: 5 / 7, alignItems: 'center' }]">
               <p style="font-size: 12px; margin-left: 4px; font-family: MSSerif; color: black">
@@ -380,15 +374,25 @@ onUnmounted(() => {
             <div :style="[styleInsetBorder, styleBottomSpacer]"></div>
             <div :style="[styleInsetBorder, styleBottomResizeContainer]">
               <div style="align-items: flex-end">
-                <Icon :size="12" icon="windowResize" />
+                <Icon size="12px" icon="windowResize" />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <div
+      v-if="isDragging"
+      style="position: absolute; left: 0; top: 0; mix-blend-mode: difference; z-index: 1000"
+    >
+      <DragIndicator
+        :width="widthVal"
+        :height="heightVal"
+        ref="dragIndicatorRef"
+        :is-dragging="isDragging"
+      />
+    </div>
 
-    <!-- Indicador de redimensión -->
     <div
       :style="
         !isResizing
@@ -403,17 +407,6 @@ onUnmounted(() => {
         :height="heightVal"
         :resizeRef="resizeRef"
       />
-    </div>
-
-    <!-- Indicador de arrastre -->
-    <div
-      :style="
-        !isDragging
-          ? { zIndex: -10000, pointerEvents: 'none' }
-          : { zIndex: 1000, cursor: 'move', mixBlendMode: 'difference' }
-      "
-    >
-      <DragIndicator :width="widthVal" :height="heightVal" :dragRef="dragRef" />
     </div>
   </div>
 </template>

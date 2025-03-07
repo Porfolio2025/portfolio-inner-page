@@ -133,7 +133,6 @@ onMounted(() => {
 
 <template>
   <div v-if="!shutdown" class="min-h-full flex-1">
-    <!-- Render de ventanas -->
     <div
       v-for="(win, key) in windows"
       :key="`win-${key}`"
@@ -147,7 +146,6 @@ onMounted(() => {
       />
     </div>
 
-    <!-- Render de shortcuts -->
     <div class="absolute top-4 left-[6px]">
       <div
         v-for="(shortcut, i) in shortcuts"
@@ -163,10 +161,6 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Toolbar -->
     <Toolbar :windows="windows" :toggleMinimize="toggleMinimize" :shutdown="startShutdown" />
   </div>
-
-  <!-- Secuencia de apagado -->
-  <!-- <ShutdownSequence v-else :setShutdown="setShutdown" :numShutdowns="numShutdowns" /> -->
 </template>
