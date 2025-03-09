@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch, computed } from 'vue'
 import DosPlayer from '@/components/dos/DosPlayer.vue'
 import Window from '../os/WindowComponent.vue'
 
@@ -22,6 +22,13 @@ const updateHeight = (newHeight: number) => {
   height.value = newHeight
 }
 
+watch([width, height], ([newWidth, newHeight]) => {
+  console.log('New dimensions:', newWidth, newHeight)
+})
+
+const dosPlayerWidth = computed(() => width.value - 10)
+const dosPlayerHeight = computed(() => height.value - 65)
+
 const { onClose, onInteract, onMinimize } = props
 </script>
 
@@ -41,6 +48,6 @@ const { onClose, onInteract, onMinimize } = props
     :onWidthChange="updateWidth"
     :onHeightChange="updateHeight"
   >
-    <DosPlayer :width="width" :height="height" bundleUrl="doom.jsdos" />
+    <DosPlayer :width="dosPlayerWidth" :height="dosPlayerHeight" bundleUrl="doom.jsdos" />
   </Window>
 </template>
