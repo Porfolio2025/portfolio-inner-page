@@ -47,5 +47,12 @@ watch(
 </script>
 
 <template>
-  <div ref="rootRef" :style="{ width: props.width + 'px', height: props.height + 'px' }"></div>
+  <div
+    ref="rootRef"
+    :style="{
+      width: width + 'px',
+      height: height + 'px',
+      position: 'absolute',
+    }"
+  ></div>
 </template>

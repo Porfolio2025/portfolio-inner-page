@@ -68,8 +68,9 @@ const styleDragHitbox: CSSProperties = {
   position: 'absolute',
   top: '0',
   left: '0',
-  width: '100%',
+  width: '90%',
   height: '20px',
+  cursor: 'move',
 }
 
 const styleWindowBorderOuter: CSSProperties = {
@@ -84,10 +85,8 @@ const styleWindowBorderInner: CSSProperties = {
   borderTopColor: colors.white,
   borderLeftColor: colors.white,
   flex: 1,
-  padding: '2px',
-  display: 'flex',
+  padding: 2,
   flexDirection: 'column',
-  backgroundColor: Colors.lightGray,
 }
 
 const styleResizeHitbox: CSSProperties = {
@@ -150,7 +149,7 @@ const styleContentInner: CSSProperties = {
 const styleContent: CSSProperties = {
   flex: 1,
   position: 'relative',
-  overflowX: 'hidden',
+  overflow: 'hidden',
   backgroundColor: Colors.white,
 }
 
