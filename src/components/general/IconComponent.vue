@@ -5,7 +5,7 @@ import type { CSSProperties } from 'vue'
 import { computed } from 'vue'
 interface IconProps {
   icon: IconName
-  style?: Record<string, any>
+  style?: CSSProperties
   size?: string | number
 }
 
