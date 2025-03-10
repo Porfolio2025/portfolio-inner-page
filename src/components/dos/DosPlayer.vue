@@ -13,7 +13,7 @@ interface PlayerProps {
 const props = defineProps<PlayerProps>()
 
 const rootRef = ref<HTMLDivElement | null>(null)
-let dosInstance: any = null
+let dosInstance: Instance | null = null
 
 const styleDOS = computed<CSSProperties>(() => ({
   width: props.width + 'px',
