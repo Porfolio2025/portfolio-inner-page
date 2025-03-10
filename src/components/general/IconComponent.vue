@@ -3,6 +3,7 @@ import getIconByName from '@/assets/icons/index'
 import type { IconName } from '@/assets/icons/index'
 import type { CSSProperties } from 'vue'
 import { computed } from 'vue'
+
 interface IconProps {
   icon: IconName
   style?: CSSProperties

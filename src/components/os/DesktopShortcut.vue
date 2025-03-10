@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted, watch, type CSSProperties } from 'vue'
 import IconComponent from '@/components/general/IconComponent.vue'
 import colors from '@/constants/colors'
+import type { IconName } from '@/assets/icons';
 
 const props = defineProps<{
   icon: string
@@ -14,10 +15,10 @@ const isSelected = ref(false)
 const shortcutId = ref('')
 const lastSelected = ref(false)
 const containerRef = ref<HTMLElement | null>(null)
-const scaledStyle = ref<Record<string, any>>({})
+const scaledStyle = ref<CSSProperties>({})
 const doubleClickTimerActive = ref(false)
 
-const { icon, shortcutName, invertText, onOpen } = props
+const { icon, shortcutName, onOpen } = props
 
 const requiredIcon = new URL(`../../assets/icons/${icon}.png`, import.meta.url).href
 
@@ -104,7 +105,7 @@ const handleClickShortcut = () => {
         "
       ></div>
 
-      <IconComponent :icon="props.icon" class="w-8 h-8" />
+      <IconComponent :icon="props.icon as IconName" class="w-8 h-8" />
     </div>
 
     <div
