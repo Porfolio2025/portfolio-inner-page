@@ -169,8 +169,9 @@ const startMenuText = computed<CSSProperties>(() => ({
 
 const startMenuOption = computed<CSSProperties>(() => ({
   alignItems: 'center',
-  height: '28px',
-  padding: '4px',
+  height: '48px',
+  padding: '12px',
+  color: Colors.black,
 }))
 
 const startMenuSpace = computed<CSSProperties>(() => ({
