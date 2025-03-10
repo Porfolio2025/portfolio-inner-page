@@ -17,6 +17,7 @@ import windowExplorerIcon from './windowExplorerIcon.png';
 import windowsStartIcon from './windowsStartIcon.png';
 import scrabbleIcon from './scrabbleIcon.png';
 import close from './close.png';
+import diggerIcon from './diggerIcon.png';
 
 const icons = {
   windowResize,
@@ -37,6 +38,7 @@ const icons = {
   windowExplorerIcon,
   windowsStartIcon,
   trailIcon,
+  diggerIcon,
 };
 
 export type IconName = keyof typeof icons;

@@ -6,6 +6,10 @@ import type { IconName } from '@/assets/icons'
 import DesktopShortcut from '@/components/os/DesktopShortcut.vue'
 import Toolbar from '@/components/os/ToolbarComponent.vue'
 import Doom from '../applications/DoomApp.vue'
+import OregonTrail from '../applications/OregonTrailApp.vue'
+import Digger from '../applications/DiggerApp.vue'
+import Scrabble from '../applications/ScrabbleApp.vue'
+
 const windows = reactive<Record<string, any>>({})
 const shortcuts = ref<any[]>([])
 const shutdown = ref(false)
@@ -24,6 +28,24 @@ const APPLICATIONS: Record<string, Application> = {
     name: 'Doom',
     shortcutIcon: 'doomIcon',
     component: Doom,
+  },
+  trail: {
+    key: 'trail',
+    name: 'Oregon Trail',
+    shortcutIcon: 'trailIcon',
+    component: OregonTrail,
+  },
+  digger: {
+    key: 'digger',
+    name: 'Digger',
+    shortcutIcon: 'diggerIcon',
+    component: Digger,
+  },
+  scrabble: {
+    key: 'scrabble',
+    name: 'Scrabble',
+    shortcutIcon: 'scrabbleIcon',
+    component: Scrabble,
   },
 }
 
