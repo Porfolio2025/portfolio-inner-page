@@ -123,7 +123,7 @@ const handleClickShortcut = () => {
           'cursor-pointer break-words pr-2 pl-2',
           'text-[8px]',
           'font-[MSSerif]',
-          invertText && !isSelected ? 'text-black' : 'text-white',
+          'text-black',
         ]"
       >
         {{ shortcutName }}

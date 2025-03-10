@@ -9,7 +9,10 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background: #3b82f6;
+    background-image: url("/js-dos/desktop-wallpaper.png");
+    background-repeat: 'no-repeat';
+    background-size: 'cover';
+    background-position: 'center';
 }
 
 .App {
