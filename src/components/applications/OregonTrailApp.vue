@@ -4,7 +4,7 @@ import DosPlayer from '@/components/dos/DosPlayer.vue'
 import Window from '@/components/os/WindowComponent.vue'
 
 interface DoomAppProps {
-  onClose: []
+  onClose: () => void
   onInteract: () => void
   onMinimize: () => void
 }
