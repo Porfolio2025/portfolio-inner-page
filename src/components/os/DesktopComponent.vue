@@ -10,10 +10,24 @@ import OregonTrail from '../applications/OregonTrailApp.vue'
 import Digger from '../applications/DiggerApp.vue'
 import Scrabble from '../applications/ScrabbleApp.vue'
 
-const windows = reactive<Record<string, any>>({})
-const shortcuts = ref<any[]>([])
+const windows = reactive<Record<string, WindowInstance>>({})
+const shortcuts = ref<DesktopShortcut[]>([])
 const shutdown = ref(false)
 const numShutdowns = ref(1)
+
+interface WindowInstance {
+  zIndex: number
+  minimized: boolean
+  component: VNode
+  name: string
+  icon: IconName
+}
+
+interface DesktopShortcut {
+  icon: IconName
+  shortcutName: string
+  onOpen: () => void
+}
 
 interface Application {
   key: string
@@ -118,12 +132,13 @@ const addWindow = (key: string, component: VNode): void => {
   }
 }
 
-const setShutdown = (value: boolean) => {
-  shutdown.value = value
-}
+//TODO: Implement shutdown
+// const setShutdown = (value: boolean) => {
+//   shutdown.value = value
+// }
 
 onMounted(() => {
-  const newShortcuts: any[] = []
+  const newShortcuts: DesktopShortcut[] = []
   Object.keys(APPLICATIONS).forEach((key) => {
     const app = APPLICATIONS[key]
     newShortcuts.push({
