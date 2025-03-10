@@ -33,7 +33,7 @@ const dragRef = ref<HTMLElement | null>(null)
 const contentRef = ref<HTMLElement | null>(null)
 const resizeRef = ref<HTMLElement | null>(null)
 
-const dragIndicatorRef = ref<any>(null)
+const dragIndicatorRef = ref<HTMLElement | null>(null)
 
 const dragProps = ref<{ offsetX: number; offsetY: number } | null>(null)
 const lastClickInside = ref(false)
