@@ -33,7 +33,8 @@ const dragRef = ref<HTMLElement | null>(null)
 const contentRef = ref<HTMLElement | null>(null)
 const resizeRef = ref<HTMLElement | null>(null)
 
-const dragIndicatorRef = ref<HTMLElement | null>(null)
+const onResizeRef = ref<InstanceType<typeof ResizeIndicator> | null>(null)
+const dragIndicatorRef = ref<InstanceType<typeof DragIndicator> | null>(null)
 
 const dragProps = ref<{ offsetX: number; offsetY: number } | null>(null)
 const lastClickInside = ref(false)
@@ -192,13 +193,13 @@ const onResize = (event: MouseEvent) => {
   const curWidth = event.clientX - leftVal.value
   const curHeight = event.clientY - topVal.value
   if (curWidth > 520 && resizeRef.value) {
-    resizeRef.value.style.width = `${curWidth}px`
+    if (onResizeRef.value?.resizeRef) onResizeRef.value.resizeRef.style.width = `${curWidth}px`
   }
   if (curHeight > 220 && resizeRef.value) {
-    resizeRef.value.style.height = `${curHeight}px`
+    if (onResizeRef.value?.resizeRef) onResizeRef.value.resizeRef.style.height = `${curHeight}px`
   }
   if (resizeRef.value) {
-    resizeRef.value.style.opacity = '1'
+    if (onResizeRef.value?.resizeRef) onResizeRef.value.resizeRef.style.opacity = '1'
   }
 }
 
@@ -333,7 +334,7 @@ onUnmounted(() => {
               <template v-if="props.windowBarIcon">
                 <Icon
                   :icon="props.windowBarIcon"
-                  :style="[styleWindowBarIcon, !windowActive ? { opacity: 0.5 } : {}]"
+                  :style="{ ...styleWindowBarIcon, ...(windowActive ? {} : { opacity: 0.5 }) }"
                   :size="18"
                 />
               </template>
@@ -400,11 +401,11 @@ onUnmounted(() => {
       "
     >
       <ResizeIndicator
+        ref="onResizeRef"
         :top="topVal"
         :left="leftVal"
         :width="widthVal"
         :height="heightVal"
-        :resizeRef="resizeRef"
       />
     </div>
   </div>

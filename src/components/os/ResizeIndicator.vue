@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { defineProps, type Ref } from 'vue'
+import { defineProps, ref } from 'vue'
 import styles from './DragIndicator.vue'
 
 interface ResizeIndicatorProps {
-  resizeRef: Ref<HTMLElement | null>
   top: number
   left: number
   width: number
@@ -11,6 +10,12 @@ interface ResizeIndicatorProps {
 }
 
 const props = defineProps<ResizeIndicatorProps>()
+
+const localResizeRef = ref<HTMLElement | null>(null)
+
+defineExpose({
+  resizeRef: localResizeRef,
+})
 </script>
 
 <template>
@@ -24,7 +29,7 @@ const props = defineProps<ResizeIndicatorProps>()
         height: props.height + 'px',
       },
     ]"
-    :ref="props.resizeRef"
+    ref="localResizeRef"
   >
     <div
       :style="{
