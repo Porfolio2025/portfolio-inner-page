@@ -10,8 +10,8 @@ interface GoogleExplorerProps {
 
 const props = defineProps<GoogleExplorerProps>()
 
-const width = ref(980)
-const height = ref(670)
+const width = ref(600)
+const height = ref(400)
 
 const updateWidth = (newWidth: number) => {
   width.value = newWidth
