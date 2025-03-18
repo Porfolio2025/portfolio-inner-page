@@ -9,6 +9,7 @@ import Doom from '../applications/DoomApp.vue'
 import OregonTrail from '../applications/OregonTrailApp.vue'
 import Digger from '../applications/DiggerApp.vue'
 import Scrabble from '../applications/ScrabbleApp.vue'
+import GoogleExplorer from '../applications/GoogleExplorer.vue'
 
 const windows = reactive<Record<string, WindowInstance>>({})
 const shortcuts = ref<DesktopShortcut[]>([])
@@ -37,6 +38,12 @@ interface Application {
 }
 
 const APPLICATIONS: Record<string, Application> = {
+  googleExplorer: {
+    key: 'googleExplorer',
+    name: 'Google Explorer',
+    shortcutIcon: 'computerBig',
+    component: GoogleExplorer,
+  },
   doom: {
     key: 'doom',
     name: 'Doom',
