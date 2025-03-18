@@ -166,7 +166,7 @@ onMounted(() => {
   })
 
   newShortcuts.forEach((shortcut) => {
-    if (shortcut.shortcutName === 'Doom') {
+    if (shortcut.shortcutName === 'Google Explorer') {
       shortcut.onOpen()
     }
   })
@@ -190,7 +190,7 @@ onMounted(() => {
       />
     </div>
 
-    <div class="absolute top-4 left-[6px]">
+    <div class="absolute top-[10px] left-[6px]">
       <div
         v-for="(shortcut, i) in shortcuts"
         :key="shortcut.shortcutName"
