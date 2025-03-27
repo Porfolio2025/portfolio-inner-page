@@ -10,6 +10,7 @@ import OregonTrail from '../applications/OregonTrailApp.vue'
 import Digger from '../applications/DiggerApp.vue'
 import Scrabble from '../applications/ScrabbleApp.vue'
 import GoogleExplorer from '../applications/GoogleExplorer.vue'
+import ShowcaseApp from '../applications/ShowcaseApp.vue'
 
 const windows = reactive<Record<string, WindowInstance>>({})
 const shortcuts = ref<DesktopShortcut[]>([])
@@ -38,6 +39,12 @@ interface Application {
 }
 
 const APPLICATIONS: Record<string, Application> = {
+  showcase: {
+    key: 'showcase',
+    name: 'My Showcase',
+    shortcutIcon: 'showcaseIcon',
+    component: ShowcaseApp,
+  },
   googleExplorer: {
     key: 'googleExplorer',
     name: 'Google Explorer',
@@ -166,7 +173,7 @@ onMounted(() => {
   })
 
   newShortcuts.forEach((shortcut) => {
-    if (shortcut.shortcutName === 'Google Explorer') {
+    if (shortcut.shortcutName === 'My Showcase') {
       shortcut.onOpen()
     }
   })

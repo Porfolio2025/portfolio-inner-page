@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import type { CSSProperties } from 'vue'
 import Icon from '../general/IconComponent.vue'
-import Colors from '../../constants/colors'
 
 const props = defineProps({
   windows: {
@@ -86,271 +84,84 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('mousedown', onCheckClick, false)
 })
-
-const toolbarOuter = computed<CSSProperties>(() => ({
-  position: 'absolute',
-  bottom: '0',
-  left: '0',
-  width: '100%',
-  height: '32px',
-  background: Colors.lightGray,
-  boxSizing: 'border-box',
-  zIndex: 100000,
-  borderTop: '1px solid #FFFFFF',
-  borderLeft: '1px solid #FFFFFF',
-  borderRight: '1px solid #000000',
-}))
-
-const verticalStartContainer = computed<CSSProperties>(() => ({
-  height: '100%',
-  background: Colors.darkGray,
-}))
-
-const verticalText = computed<CSSProperties>(() => ({
-  fontFamily: 'Terminal',
-  textOrientation: 'sideways',
-  fontSize: '32px',
-  padding: '4px',
-  paddingBottom: '64px',
-  paddingTop: '8px',
-  letterSpacing: 1,
-  color: Colors.lightGray,
-  transform: 'scale(-1)',
-  WebkitTransform: 'scale(-1)',
-  MozTransform: 'scale(-1)',
-  msTransform: 'scale(-1)',
-  OTransform: 'scale(-1)',
-  writingMode: 'vertical-rl',
-}))
-
-const startWindowContent = computed<CSSProperties>(() => ({
-  flex: 1,
-  flexDirection: 'column',
-  justifyContent: 'flex-end',
-}))
-
-const startWindow = computed<CSSProperties>(() => ({
-  position: 'absolute',
-  bottom: '28px',
-  display: 'flex',
-  flex: 1,
-  width: '256px',
-  left: '4px',
-  boxSizing: 'border-box',
-  border: `1px solid ${Colors.white}`,
-  borderBottomColor: Colors.black,
-  borderRightColor: Colors.black,
-  background: Colors.lightGray,
-}))
-
-const activeTabOuter = computed<CSSProperties>(() => ({
-  border: `1px solid ${Colors.black}`,
-  borderBottomColor: Colors.white,
-  borderRightColor: Colors.white,
-}))
-
-const startWindowInner = computed<CSSProperties>(() => ({
-  border: `1px solid ${Colors.lightGray}`,
-  borderBottomColor: Colors.darkGray,
-  borderRightColor: Colors.darkGray,
-  flex: 1,
-}))
-
-const startMenuIcon = computed<CSSProperties>(() => ({
-  width: '32px',
-  height: '32px',
-}))
-
-const startMenuText = computed<CSSProperties>(() => ({
-  fontSize: '14px',
-  fontFamily: 'MSSerif',
-  marginLeft: '8px',
-}))
-
-const startMenuOption = computed<CSSProperties>(() => ({
-  alignItems: 'center',
-  height: '48px',
-  padding: '12px',
-  color: Colors.black,
-}))
-
-const startMenuSpace = computed<CSSProperties>(() => ({
-  flex: 1,
-}))
-
-const startMenuLine = computed<CSSProperties>(() => ({
-  height: '1px',
-  background: Colors.white,
-  borderTop: `1px solid ${Colors.darkGray}`,
-}))
-
-const activeTabInner = computed<CSSProperties>(() => ({
-  border: `1px solid ${Colors.darkGray}`,
-  borderBottomColor: Colors.lightGray,
-  borderRightColor: Colors.lightGray,
-  backgroundImage: `linear-gradient(45deg, white 25%, transparent 25%), linear-gradient(-45deg, white 25%, transparent 25%), linear-gradient(45deg, transparent 75%, white 75%), linear-gradient(-45deg, transparent 75%, white 75%)`,
-  backgroundSize: `4px 4px`,
-  backgroundPosition: `0 0, 0 2px, 2px -2px, -2px 0px`,
-  pointerEvents: 'none',
-}))
-
-const tabContainerOuter = computed<CSSProperties>(() => ({
-  display: 'flex',
-  flex: 1,
-  maxWidth: '300px',
-  height: '28px',
-  marginBottom: '2px',
-  boxSizing: 'border-box',
-  cursor: 'pointer',
-  border: `1px solid ${Colors.white}`,
-  borderBottomColor: Colors.black,
-  borderRightColor: Colors.black,
-  color: Colors.black,
-}))
-
-const tabContainer = computed<CSSProperties>(() => ({
-  display: 'flex',
-  border: `1px solid ${Colors.lightGray}`,
-  borderBottomColor: Colors.darkGray,
-  borderRightColor: Colors.darkGray,
-  alignItems: 'center',
-  paddingLeft: '2px',
-  flex: 1,
-}))
-
-const tabIcon = computed<CSSProperties>(() => ({
-  marginRight: '12px',
-}))
-
-const startContainer = computed<CSSProperties>(() => ({
-  alignItems: 'center',
-  flexShrink: 1,
-  border: `1px solid ${Colors.lightGray}`,
-  borderBottomColor: Colors.darkGray,
-  borderRightColor: Colors.darkGray,
-  padding: '1px',
-  paddingLeft: '5px',
-  paddingRight: '5px',
-}))
-
-const startContainerOuter = computed<CSSProperties>(() => ({
-  height: '28px',
-  marginTop: '4px',
-  marginBottom: '4px',
-  boxSizing: 'border-box',
-  cursor: 'pointer',
-  border: `1px solid ${Colors.white}`,
-  borderBottomColor: Colors.black,
-  borderRightColor: Colors.black,
-}))
-
-const toolbarTabsContainer = computed<CSSProperties>(() => ({
-  flex: 1,
-  marginLeft: '4px',
-  marginRight: '4px',
-  marginTop: '4px',
-  display: 'flex',
-}))
-
-const startIcon = computed<CSSProperties>(() => ({
-  marginRight: '4px',
-}))
-
-const toolbarInner = computed<CSSProperties>(() => ({
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  width: '100%',
-  height: '100%',
-  boxSizing: 'border-box',
-  padding: '2px',
-}))
-const toolbar = computed<CSSProperties>(() => ({
-  display: 'flex',
-  flexGrow: 1,
-  width: '100%',
-}))
-
-const timeStyle = computed<CSSProperties>(() => ({
-  flexShrink: 1,
-  width: '86px',
-  height: '24px',
-  boxSizing: 'border-box',
-  marginRight: '4px',
-  paddingLeft: '4px',
-  paddingRight: '4px',
-  border: `1px solid ${Colors.white}`,
-  borderTopColor: Colors.darkGray,
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  borderLeftColor: Colors.darkGray,
-  color: Colors.black,
-}))
-
-const volumeIcon = computed<CSSProperties>(() => ({
-  cursor: 'pointer',
-  height: '18px',
-}))
-
-const tabText = computed<CSSProperties>(() => ({
-  fontSize: '14px',
-  fontFamily: 'MSSerif',
-}))
-
-const timeText = computed<CSSProperties>(() => ({
-  fontSize: '12px',
-  fontFamily: 'MSSerif',
-}))
 </script>
 
 <template>
-  <div :style="toolbarOuter">
-    <div v-if="startWindowOpen" @mousedown="onStartWindowClicked" :style="startWindow">
-      <div :style="startWindowInner">
-        <div :style="verticalStartContainer">
-          <p :style="verticalText">ChrisOS</p>
+  <div
+    class="absolute bottom-0 left-0 w-full h-8 bg-[var(--lightGray)] box-border z-[100000] border-t border-l border-r border-t-white border-l-white border-r-black"
+  >
+    <div
+      v-if="startWindowOpen"
+      @mousedown="onStartWindowClicked"
+      class="absolute bottom-[28px] flex flex-1 w-[256px] left-[4px] box-border border border-white border-b-black border-r-black bg-[var(--lightGray)]"
+    >
+      <div
+        class="border border-[var(--lightGray)] border-b-[var(--darkGray)] border-r-[var(--darkGray)] flex-1"
+      >
+        <div class="h-full bg-[var(--darkGray)]">
+          <p
+            class="verticalText font-[Terminal] text-[32px] px-[4px] pt-[8px] pb-[64px] tracking-[1px] text-[var(--lightGray)] transform [transform:scale(-1)] [writing-mode:vertical-rl]"
+          >
+            ChrisOS
+          </p>
         </div>
-        <div :style="startWindowContent">
-          <div :style="startMenuSpace"></div>
-          <div :style="startMenuLine"></div>
-          <div class="start-menu-option" :style="startMenuOption" @mousedown="handleShutdown">
-            <Icon :style="startMenuIcon" icon="computerBig" />
-            <p :style="startMenuText">Sh<u>u</u>t down...</p>
+        <div class="flex-1 flex flex-col justify-end">
+          <div class="flex-1"></div>
+          <div class="h-[1px] bg-[var(--white)] border border-t-[var(--darkGray)]"></div>
+          <div
+            class="start-menu-option flex items-center p-[8px] text-black"
+            @mousedown="handleShutdown"
+          >
+            <Icon class="size-8" icon="computerBig" />
+            <p class="text-sm ml-2 font-[MSSerif]">Sh<u>u</u>t down...</p>
           </div>
         </div>
       </div>
     </div>
 
-    <div :style="toolbarInner">
-      <div :style="toolbar">
+    <div class="d-flex items-center justify-between w-full h-full box-border p-[2px]">
+      <div class="d-flex grow w-full">
         <div
-          :style="[startContainerOuter, startWindowOpen && activeTabOuter]"
+          :class="{
+            activeTabOuter: startWindowOpen,
+            startContainerOuter: true,
+          }"
           @mousedown="toggleStartWindow"
         >
-          <div :style="[startContainer, startWindowOpen && activeTabInner]">
-            <Icon size="18px" icon="windowsStartIcon" :style="startIcon" />
+          <div :class="{ activeTabInner: startWindowOpen, startContainer: true }">
+            <Icon size="18px" icon="windowsStartIcon" class="mr-[4px]" />
             <p class="toolbar-text">Start</p>
           </div>
         </div>
 
-        <div :style="toolbarTabsContainer">
+        <div class="flex-1 ml-[4px] mr-[4px] mt-[4px] d-flex">
           <div
             v-for="(win, key) in windows"
             :key="key"
-            :style="[tabContainerOuter, lastActive === key && !win.minimized && activeTabOuter]"
+            :class="{
+              activeTabOuter: lastActive === key && !win.minimized,
+              tabContainerOuter: true,
+            }"
             @mousedown="() => toggleMinimize(key)"
           >
-            <div :style="[tabContainer, lastActive === key && !win.minimized && activeTabInner]">
-              <Icon size="18px" :icon="win.icon" :style="tabIcon" />
-              <p :style="tabText">{{ win.name }}</p>
+            <div
+              :class="{
+                activeTabInner: lastActive === key && !win.minimized,
+                tabContainer: true,
+              }"
+            >
+              <Icon size="18px" :icon="win.icon" class="mr-[12px]" />
+              <p class="text-[14px] font-[MSSerif] pt-[4px]">{{ win.name }}</p>
             </div>
           </div>
         </div>
       </div>
 
-      <div :style="timeStyle">
-        <Icon :style="volumeIcon" icon="volumeOn" />
-        <p :style="timeText">{{ time }}</p>
+      <div
+        class="shrink w-[86px] h-[24px] box-border mr-[4px] pl-[4px] pr-[4px] border border-[var(--white)] border-t-[var(--darkGray)] border-l-[var(--darkGray)] justify-between items-center text-black"
+      >
+        <Icon class="cursor-pointer h-[18px]" icon="volumeOn" />
+        <p class="text-[12px] font-[MSSerif] pt-[4px]">{{ time }}</p>
       </div>
     </div>
   </div>

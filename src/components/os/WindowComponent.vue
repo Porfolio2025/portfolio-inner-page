@@ -56,131 +56,26 @@ const preMaxSize = reactive({
   left: leftVal.value,
 })
 
-const styleWindow = computed<CSSProperties>(() => ({
-  backgroundColor: Colors.lightGray,
-  position: 'absolute',
-  width: `${widthVal.value}px`,
-  height: `${heightVal.value}px`,
-  top: `${topVal.value}px`,
-  left: `${leftVal.value}px`,
-}))
+const styleTopBar = computed<CSSProperties>(() => {
+  let backgroundColor: string = Colors.blue
 
-const styleDragHitbox: CSSProperties = {
-  position: 'absolute',
-  top: '0',
-  left: '0',
-  width: '90%',
-  height: '20px',
-  cursor: 'move',
-}
+  if (props.windowBarColor) {
+    backgroundColor = props.windowBarColor
+  }
+  if (!windowActive.value) {
+    backgroundColor = Colors.darkGray
+  }
 
-const styleWindowBorderOuter: CSSProperties = {
-  border: `1px solid ${Colors.black}`,
-  borderTopColor: colors.lightGray,
-  borderLeftColor: colors.lightGray,
-  flex: 1,
-}
-
-const styleWindowBorderInner: CSSProperties = {
-  border: `1px solid ${Colors.darkGray}`,
-  borderTopColor: colors.white,
-  borderLeftColor: colors.white,
-  flex: 1,
-  padding: 2,
-  flexDirection: 'column',
-}
-
-const styleResizeHitbox: CSSProperties = {
-  position: 'absolute',
-  width: '60px',
-  height: '60px',
-  bottom: '-20px',
-  right: '-20px',
-  cursor: 'nwse-resize',
-}
-
-const styleTopBar = computed<CSSProperties>(() => ({
-  backgroundColor: props.windowBarColor
-    ? props.windowBarColor
-    : windowActive.value
-      ? Colors.blue
-      : Colors.darkGray,
-  width: '100%',
-  height: '20px',
-  display: 'flex',
-  alignItems: 'center',
-  paddingRight: '2px',
-  boxSizing: 'border-box',
-}))
-
-const styleWindowHeader: CSSProperties = {
-  flex: 1,
-  display: 'flex',
-  alignItems: 'center',
-}
-
-const styleWindowBarIcon: CSSProperties = {
-  paddingLeft: '4px',
-  paddingRight: '4px',
-}
-
-const styleWindowTopButtons: CSSProperties = {
-  display: 'flex',
-  alignItems: 'center',
-}
-
-const styleContentOuter: CSSProperties = {
-  border: `1px solid ${Colors.white}`,
-  borderTopColor: colors.darkGray,
-  borderLeftColor: colors.darkGray,
-  flexGrow: 1,
-  marginTop: '8px',
-  marginBottom: '8px',
-  overflow: 'hidden',
-}
-
-const styleContentInner: CSSProperties = {
-  border: `2px solid ${Colors.lightGray}`,
-  borderTopColor: colors.black,
-  borderLeftColor: colors.black,
-  flex: 1,
-  overflow: 'hidden',
-}
-
-const styleContent: CSSProperties = {
-  flex: 1,
-  position: 'relative',
-  overflow: 'hidden',
-  backgroundColor: Colors.white,
-}
-
-const styleBottomBar: CSSProperties = {
-  flexShrink: 1,
-  width: '100%',
-  height: '20px',
-  display: 'flex',
-  backgroundColor: Colors.lightGray,
-}
-
-const styleBottomSpacer: CSSProperties = {
-  width: '16px',
-  marginLeft: '2px',
-}
-
-const styleInsetBorder: CSSProperties = {
-  border: `1px solid ${Colors.white}`,
-  borderTopColor: colors.darkGray,
-  borderLeftColor: colors.darkGray,
-  padding: '2px',
-}
-
-const styleBottomResizeContainer: CSSProperties = {
-  flex: 2 / 7,
-  display: 'flex',
-  justifyContent: 'flex-end',
-  padding: 0,
-  marginLeft: '2px',
-}
+  return {
+    backgroundColor,
+    width: '100%',
+    height: '20px',
+    display: 'flex',
+    alignItems: 'center',
+    paddingRight: '2px',
+    boxSizing: 'border-box',
+  }
+})
 
 const startResize = (event: MouseEvent) => {
   event.preventDefault()
@@ -296,9 +191,12 @@ const maximize = () => {
   }
 }
 
-const onCheckClick = () => {
-  windowActive.value = lastClickInside.value ? true : false
-  lastClickInside.value = false
+const onCheckClick = (event: MouseEvent) => {
+  if (windowRef.value && windowRef.value.contains(event.target as Node)) {
+    windowActive.value = true
+  } else {
+    windowActive.value = false
+  }
 }
 
 const onWindowInteract = () => {
@@ -317,24 +215,34 @@ onUnmounted(() => {
 
 <template>
   <div @mousedown="onWindowInteract">
-    <div :style="styleWindow" ref="windowRef">
-      <div :style="styleWindowBorderOuter">
-        <div :style="styleWindowBorderInner">
-          <div :style="styleDragHitbox" @mousedown="startDrag"></div>
-
+    <div
+      class="absolute bg-[var(--lightGray)]"
+      :style="{
+        width: `${widthVal}px`,
+        height: `${heightVal}px`,
+        top: `${topVal}px`,
+        left: `${leftVal}px`,
+      }"
+      ref="windowRef"
+    >
+      <div
+        class="border border-[var(--black)] border-t-[var(--lightGray)] border-l-[var(--lightGray)] flex-1"
+      >
+        <div
+          class="border border-[var(--darkGray)] border-t-[var(--white)] border-l-[var(--white)] flex-1 p-[2px] flex-col"
+        >
           <div
-            :class="[props.rainbow ? 'rainbow-wrapper' : '']"
-            :style="[
-              styleTopBar,
-              props.windowBarColor && { backgroundColor: props.windowBarColor },
-              !windowActive ? { backgroundColor: Colors.darkGray } : {},
-            ]"
-          >
-            <div :style="styleWindowHeader">
+            class="absolute top-0 left-0 w-[90%] h-[20px] cursor-move"
+            @mousedown="startDrag"
+          ></div>
+
+          <div :class="[props.rainbow ? 'rainbow-wrapper' : '']" :style="styleTopBar">
+            <div class="flex-1 d-flex items-center">
               <template v-if="props.windowBarIcon">
                 <Icon
                   :icon="props.windowBarIcon"
-                  :style="{ ...styleWindowBarIcon, ...(windowActive ? {} : { opacity: 0.5 }) }"
+                  class="pr-[4px] pl-[4px]"
+                  :style="{ ...(windowActive ? {} : { opacity: 0.5 }) }"
                   :size="18"
                 />
               </template>
@@ -345,7 +253,7 @@ onUnmounted(() => {
                 {{ props.windowTitle }}
               </p>
             </div>
-            <div :style="styleWindowTopButtons">
+            <div class="d-flex items-center">
               <Button icon="minimize" @click="props.minimizeWindow" />
               <Button icon="maximize" @click="maximize" />
               <div style="padding-left: 2px">
@@ -354,25 +262,42 @@ onUnmounted(() => {
             </div>
           </div>
 
-          <div :style="styleContentOuter">
-            <div :style="styleContentInner">
-              <div :style="styleContent" ref="contentRef">
+          <div
+            class="border border-white border-t-[var(--darkGray)] border-l-[var(--darkGray)] grow mt-[8px] mb-[8px] overflow-hidden"
+          >
+            <div
+              class="flex-1 overflow-hidden border border-2-[var(--lightGray)] border-t-[var(--black)] border-l-[var(--black)]"
+            >
+              <div class="flex-1 relative overflow-hidden bg-white" ref="contentRef">
                 <slot />
               </div>
             </div>
           </div>
 
-          <div :style="styleResizeHitbox" @mousedown="startResize"></div>
+          <div
+            class="absolute w-[60px] h-[60px] bottom-[-20px] rigth-[-20px] cursor-nwse-resize"
+            @mousedown="startResize"
+          ></div>
 
-          <div :style="styleBottomBar">
-            <div :style="[styleInsetBorder, { flex: 5 / 7, alignItems: 'center' }]">
+          <div class="d-flex shrink w-full h-[20px] bg-[var(--lightGray)]">
+            <div
+              class="items-center items-center p-[2px] border border-white border-t-[var(--darkGray)] border-l-[var(--darkGray)]"
+              :style="{ flex: 5 / 7 }"
+            >
               <p style="font-size: 12px; margin-left: 4px; font-family: MSSerif; color: black">
                 {{ props.bottomLeftText }}
               </p>
             </div>
-            <div :style="[styleInsetBorder, styleBottomSpacer]"></div>
-            <div :style="[styleInsetBorder, styleBottomSpacer]"></div>
-            <div :style="[styleInsetBorder, styleBottomResizeContainer]">
+            <div
+              class="w-[16px] ml-[2px] p-[2px] border border-white border-t-[var(--darkGray)] border-l-[var(--darkGray)]"
+            ></div>
+            <div
+              class="w-[16px] ml-[2px] p-[2px] border border-white border-t-[var(--darkGray)] border-l-[var(--darkGray)]"
+            ></div>
+            <div
+              class="d-flex justify-end ml-[2px] pl-[2px] p-[2px] border border-white border-t-[var(--darkGray)] border-l-[var(--darkGray)]"
+              :style="{ flex: 2 / 7 }"
+            >
               <div style="align-items: flex-end">
                 <Icon size="12px" icon="windowResize" />
               </div>
@@ -393,7 +318,8 @@ onUnmounted(() => {
       />
     </div>
 
-    <div
+    <!-- TODO: Implement ResizeIndicator -->
+    <!-- <div
       :style="
         !isResizing
           ? { zIndex: -10000, pointerEvents: 'none' }
@@ -407,6 +333,6 @@ onUnmounted(() => {
         :width="widthVal"
         :height="heightVal"
       />
-    </div>
+    </div> -->
   </div>
 </template>

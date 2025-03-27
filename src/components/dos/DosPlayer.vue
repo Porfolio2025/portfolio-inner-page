@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, computed, type CSSProperties } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 import type { DosPlayer as Instance, DosPlayerFactoryType } from 'js-dos'
 
 declare const Dos: DosPlayerFactoryType
@@ -14,14 +14,6 @@ const props = defineProps<PlayerProps>()
 
 const rootRef = ref<HTMLDivElement | null>(null)
 let dosInstance: Instance | null = null
-
-const styleDOS = computed<CSSProperties>(() => ({
-  width: props.width + 'px',
-  height: props.height + 'px',
-  position: 'absolute',
-  margin: 0,
-  padding: 0,
-}))
 
 onMounted(() => {
   if (rootRef.value) {
@@ -55,5 +47,9 @@ watch(
 </script>
 
 <template>
-  <div ref="rootRef" :style="styleDOS"></div>
+  <div
+    ref="rootRef"
+    class="absolute m-0 p-0"
+    :style="{ width: props.width + 'px', height: props.height + 'px' }"
+  ></div>
 </template>

@@ -45,7 +45,7 @@ const { onClose, onInteract, onMinimize } = props
   >
     <div className="site-page">
       <iframe
-        src="https://oldgoogle.neocities.org/1998/"
+        src="https://google.com"
         title="google"
         width="100%"
         height="100%"
