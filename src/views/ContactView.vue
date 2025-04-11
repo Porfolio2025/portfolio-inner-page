@@ -10,8 +10,9 @@
     </div>
     <div class="text-block">
       <p>
-        I am currently employed, however if you have any opportunities, feel free to reach out - I
-        would love to chat! You can reach me via my personal email, or fill out the form below!
+        Actualmente estoy empleado, sin embargo, si tienes alguna oportunidad, no dudes en
+        contactarme - ¡Me encantaría conversar! Puedes contactarme a través de mi correo personal o
+        completar el formulario a continuación.
       </p>
       <br />
       <p>
@@ -20,39 +21,43 @@
       </p>
       <div class="flex-col mt-[32px]">
         <label>
-          <p><span class="pr-[4px] text-[var(--red)]" v-if="!name">*</span><b>Your name:</b></p>
+          <p><span class="pr-[4px] text-[var(--red)]" v-if="!name">*</span><b>Nombre:</b></p>
         </label>
-        <input v-model="name" class="mt-[4px] mb-[16px]" type="text" placeholder="Name" />
+        <input v-model="name" class="mt-[4px] mb-[16px]" type="text" placeholder="Nombre" />
         <label>
-          <p><span class="pr-[4px] text-[var(--red)]" v-if="!validateEmail(email)">*</span><b>Email:</b></p>
+          <p>
+            <span class="pr-[4px] text-[var(--red)]" v-if="!validateEmail(email)">*</span
+            ><b>Email:</b>
+          </p>
         </label>
         <input v-model="email" class="mt-[4px] mb-[16px]" type="email" placeholder="Email" />
         <label>
-          <p><b>Company (optional):</b></p>
+          <p><b>Compañia (opcional):</b></p>
         </label>
-        <input v-model="company" class="mt-[4px] mb-[16px]" type="text" placeholder="Company" />
+        <input v-model="company" class="mt-[4px] mb-[16px]" type="text" placeholder="Compañia" />
         <label>
-          <p><span v-if="!message" class="pr-[4px] text-[var(--red)]">*</span><b>Message:</b></p>
+          <p><span v-if="!message" class="pr-[4px] text-[var(--red)]">*</span><b>Mensaje:</b></p>
         </label>
-        <textarea v-model="message" class="mt-[4px] mb-[16px]" placeholder="Message"></textarea>
+        <textarea v-model="message" class="mt-[4px] mb-[16px]" placeholder="Mensaje"></textarea>
         <div class="justify-between items-center">
           <button
             class="site-button min-w-[184px] h-[32px]"
             :disabled="!isFormValid || isLoading"
             @click="submitForm"
           >
-            {{ isLoading ? 'Sending' : 'Send Message' }}
+            {{ isLoading ? 'Enviando...' : 'Enviar mensaje' }}
           </button>
           <div class="text-right flex-col items-end pl-[24px]">
             <p :style="{ color: formMessageColor }">
               <b
                 ><sub>{{
-                  formMessage || 'All messages get forwarded straight to my personal email'
+                  formMessage ||
+                  'Todos los mensajes serán reenviados directamente a mi correo personal'
                 }}</sub></b
               >
             </p>
             <p>
-              <sub v-if="!isFormValid"><b class="pr-[4px] text-[var(--red)]">*</b> = required</sub>
+              <sub v-if="!isFormValid"><b class="pr-[4px] text-[var(--red)]">*</b> = requerido</sub>
             </p>
           </div>
         </div>
@@ -66,9 +71,9 @@ import { ref, computed, watch } from 'vue'
 
 import SocialBox from '@/components/showcase/SocialBox.vue'
 
-import twitterIcon from '@/assets/pictures/contact-twitter.png';
-import ghIcon from '@/assets/pictures/contact-gh.png';
-import inIcon from '@/assets/pictures/contact-in.png';
+import twitterIcon from '@/assets/pictures/contact-twitter.png'
+import ghIcon from '@/assets/pictures/contact-gh.png'
+import inIcon from '@/assets/pictures/contact-in.png'
 
 const company = ref('')
 const email = ref('')
@@ -117,7 +122,7 @@ const submitForm = async () => {
       formMessage.value = data.error
       formMessageColor.value = 'red'
     }
-  } catch (e) {
+  } catch {
     formMessage.value = 'There was an error sending your message. Please try again.'
     formMessageColor.value = 'red'
   } finally {
