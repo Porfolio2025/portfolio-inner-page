@@ -19,7 +19,7 @@ const isHome = computed(() => route.path === '/')
       <router-link class="link" to="about">SOBRE MÍ</router-link>
       <router-link class="link" to="experience">EXPERIENCIA</router-link>
       <router-link :class="['link']" to="projects">PROYECTOS</router-link>
-      <router-link class="link" to="contact">CONTACT</router-link>
+      <router-link class="link" to="contact">CONTACTO</router-link>
     </div>
     <div class="spacer"></div>
   </div>

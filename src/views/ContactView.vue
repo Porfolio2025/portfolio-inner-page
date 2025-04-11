@@ -1,7 +1,7 @@
 <template>
   <div class="site-page-content">
     <div class="items-end justify-between">
-      <h1>Contact</h1>
+      <h1>Contacto</h1>
       <div class="mb-[16px] justify-end">
         <SocialBox :icon="ghIcon" link="https://github.com/henryjeff" />
         <SocialBox :icon="inIcon" link="https://www.linkedin.com/in/henryheffernan/" />

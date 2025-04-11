@@ -10,7 +10,7 @@
       <RouterLink class="p-[16px]" to="/about">SOBRE MÍ</RouterLink>
       <RouterLink class="p-[16px]" to="/experience">EXPERIENCIA</RouterLink>
       <RouterLink class="p-[16px]" to="/projects">PROYECTOS</RouterLink>
-      <RouterLink class="p-[16px]" to="/contact">CONTACT</RouterLink>
+      <RouterLink class="p-[16px]" to="/contact">CONTACTO</RouterLink>
     </div>
   </div>
 </template>
