@@ -4,9 +4,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const projectsExpanded = computed(() => route.path.includes('/projects'))
 const isHome = computed(() => route.path === '/')
-
 </script>
 
 <template>
@@ -14,20 +12,13 @@ const isHome = computed(() => route.path === '/')
     <div class="header">
       <h1 class="headerText">Christian</h1>
       <h1 class="headerText">Carrasco</h1>
-      <h3 class="headerShowcase">Showcase '25</h3>
+      <h3 class="headerShowcase">Portfolio '25</h3>
     </div>
     <div class="links">
       <router-link class="link" to="/">HOME</router-link>
-      <router-link class="link" to="about">ABOUT</router-link>
-      <router-link class="link" to="experience">EXPERIENCE</router-link>
-      <router-link :class="['link', { expandedLink: projectsExpanded }]" to="projects">
-        PROJECTS
-      </router-link>
-      <div v-if="projectsExpanded" class="insetLinks">
-        <router-link class="insetLink" to="projects/software">SOFTWARE</router-link>
-        <router-link class="insetLink" to="projects/music">MUSIC</router-link>
-        <router-link class="insetLink" to="projects/art">ART</router-link>
-      </div>
+      <router-link class="link" to="about">SOBRE MÍ</router-link>
+      <router-link class="link" to="experience">EXPERIENCIA</router-link>
+      <router-link :class="['link']" to="projects">PROYECTOS</router-link>
       <router-link class="link" to="contact">CONTACT</router-link>
     </div>
     <div class="spacer"></div>
