@@ -18,10 +18,14 @@ export default defineConfig({
           src: "node_modules/js-dos/dist/*",
           dest: "js-dos",
         },
+        {
+          src: "public/games/**/*",
+          dest: "games",
+        },
       ],
     }),
   ],
-  assetsInclude: ["**/*.wasm", "**/*.data"],
+  assetsInclude: ["**/*.wasm", "**/*.data", "**/*.jsdos"],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
