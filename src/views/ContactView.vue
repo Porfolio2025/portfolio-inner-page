@@ -3,9 +3,9 @@
     <div class="items-end justify-between">
       <h1>Contacto</h1>
       <div class="mb-[16px] justify-end">
-        <SocialBox :icon="ghIcon" link="https://github.com/henryjeff" />
-        <SocialBox :icon="inIcon" link="https://www.linkedin.com/in/henryheffernan/" />
-        <SocialBox :icon="twitterIcon" link="https://twitter.com/henryheffernan" />
+        <SocialBox :icon="ghIcon" link="https://github.com/xhris-spec" />
+        <SocialBox :icon="inIcon" link="https://www.linkedin.com/in/christian-carrasco-aa067a267/" />
+        <!-- <SocialBox :icon="twitterIcon" link="" /> -->
       </div>
     </div>
     <div class="text-block">
@@ -71,7 +71,7 @@ import { ref, computed, watch } from 'vue'
 
 import SocialBox from '@/components/showcase/SocialBox.vue'
 
-import twitterIcon from '@/assets/pictures/contact-twitter.png'
+// import twitterIcon from '@/assets/pictures/contact-twitter.png'
 import ghIcon from '@/assets/pictures/contact-gh.png'
 import inIcon from '@/assets/pictures/contact-in.png'
 
