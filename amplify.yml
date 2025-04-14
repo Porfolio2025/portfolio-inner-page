@@ -11,7 +11,7 @@ frontend:
         - pnpm install
         - pnpm run build
   artifacts:
-    baseDirectory: public
+    baseDirectory: dist
     files:
       - '**/*'
   cache:
