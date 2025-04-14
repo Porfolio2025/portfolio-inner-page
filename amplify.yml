@@ -10,9 +10,8 @@ frontend:
       commands:
         - pnpm install
         - pnpm run build
-        - pnpm run dev
   artifacts:
-    baseDirectory: public
+    baseDirectory: dist
     files:
       - '**/*'
   cache:
