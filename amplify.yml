@@ -10,6 +10,10 @@ frontend:
       commands:
         - pnpm install
         - pnpm run build
+  artifacts:
+    baseDirectory: public
+    files:
+      - '**/*'
   cache:
     paths:
       - node_modules/**/*
