@@ -21,6 +21,7 @@ export default defineConfig({
       ],
     }),
   ],
+  assetsInclude: ["**/*.wasm", "**/*.data"],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
