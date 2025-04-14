@@ -94,13 +94,13 @@ const isFormValid = computed(
 
 const submitForm = async () => {
   if (!isFormValid.value) {
-    formMessage.value = 'Form unable to validate, please try again.'
+    formMessage.value = 'Por favor completa todos los campos requeridos.'
     formMessageColor.value = 'red'
     return
   }
   try {
     isLoading.value = true
-    const res = await fetch('https://api.henryheffernan.com/api/contact', {
+    const res = await fetch('http://node-mail-2-dev3.us-west-2.elasticbeanstalk.com/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -112,7 +112,7 @@ const submitForm = async () => {
     })
     const data = await res.json()
     if (data.success) {
-      formMessage.value = `Message successfully sent. Thank you ${name.value}!`
+      formMessage.value = `Mensaje enviado correctamente!Gracias ${name.value}!`
       company.value = ''
       email.value = ''
       name.value = ''
@@ -123,7 +123,7 @@ const submitForm = async () => {
       formMessageColor.value = 'red'
     }
   } catch {
-    formMessage.value = 'There was an error sending your message. Please try again.'
+    formMessage.value = 'Error al enviar el mensaje, por favor intenta nuevamente.'
     formMessageColor.value = 'red'
   } finally {
     isLoading.value = false
