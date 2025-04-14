@@ -10,7 +10,6 @@ frontend:
       commands:
         - pnpm install
         - pnpm run build
-        - pnpm run dev
   artifacts:
     baseDirectory: public
     files:
