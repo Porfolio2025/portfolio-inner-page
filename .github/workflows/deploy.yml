@@ -27,8 +27,8 @@ jobs:
             sudo docker stop portfolio-app-prod || true
             sudo docker rm portfolio-app-prod || true
 
-            docker build -t portfolio-app .
-            
+            sudo docker build -t portfolio-app .
+
             sudo docker run -d -p 3000:3000 --name portfolio-app-prod portfolio-app
 
           EOF
