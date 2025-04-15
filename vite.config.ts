@@ -8,6 +8,7 @@ import { viteStaticCopy } from "vite-plugin-static-copy";
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [
     vue(),
     vueDevTools(),
@@ -17,10 +18,6 @@ export default defineConfig({
         {
           src: "node_modules/js-dos/dist/*",
           dest: "js-dos",
-        },
-        {
-          src: "public/games/**/*",
-          dest: "games",
         },
       ],
     }),
