@@ -24,6 +24,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@$HOST << 'EOF'
             cd //home/ec2-user/portfolio-inner-page
             git pull origin test
-            docker compose down
-            docker compose up -d --build
+            docker-compose down
+            docker-compose up -d --build
           EOF
