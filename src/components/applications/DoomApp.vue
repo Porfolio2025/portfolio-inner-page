@@ -48,6 +48,6 @@ const { onClose, onInteract, onMinimize } = props
     :onWidthChange="updateWidth"
     :onHeightChange="updateHeight"
   >
-    <DosPlayer :width="dosPlayerWidth" :height="dosPlayerHeight" bundleUrl="doom.jsdos" />
+    <DosPlayer :width="dosPlayerWidth" :height="dosPlayerHeight" bundleUrl="/games/doom.jsdos" />
   </Window>
 </template>
