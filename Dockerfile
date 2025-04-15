@@ -19,7 +19,7 @@ COPY . .
 RUN pnpm build-only
 
 
-RUN pnpm add -g serve
+RUN npm install -g serve
 
 
 EXPOSE 3000
