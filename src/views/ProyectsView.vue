@@ -28,7 +28,7 @@ import portfolio from '@/assets/pictures/portfolio.png'
       <div className="captioned-image">
         <img :src="portfolio" alt="" />
         <p class="w-[80%]">
-          <sub> <b>Ejemplo 1:</b> Esta es la página principal. </sub>
+          <sub> <b>Ejemplo 1:</b> Pantallazo de una app del OS. </sub>
         </p>
       </div>
       <br />
