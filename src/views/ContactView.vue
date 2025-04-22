@@ -112,7 +112,7 @@ const submitForm = async () => {
     })
     const data = await res.json()
     if (data.success) {
-      formMessage.value = `Mensaje enviado correctamente!Gracias ${name.value}!`
+      formMessage.value = `Mensaje enviado correctamente! Gracias ${name.value}!`
       company.value = ''
       email.value = ''
       name.value = ''

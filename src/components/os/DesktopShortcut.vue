@@ -84,15 +84,15 @@ const handleClickShortcut = () => {
 <template>
   <div
     :id="shortcutId"
-    class="absolute w-14 flex flex-col justify-center items-center text-center"
+    class="absolute w-[56px] flex flex-col justify-center items-center text-center"
     :style="scaledStyle"
     @mousedown.stop="handleClickShortcut"
     ref="containerRef"
   >
-    <div :id="shortcutId" class="cursor-pointer pb-3">
+    <div :id="shortcutId" class="cursor-pointer pb-[12px]">
       <div
         :id="shortcutId"
-        class="absolute top-0 w-8 h-8"
+        class="absolute top-0 w-[32px] h-[32px]"
         :style="
           isSelected
             ? {
@@ -105,7 +105,7 @@ const handleClickShortcut = () => {
         "
       ></div>
 
-      <IconComponent :icon="props.icon as IconName" class="w-8 h-8" />
+      <IconComponent :icon="props.icon as IconName" class="w-[32px] h-[32px]" />
     </div>
 
     <div
@@ -121,7 +121,7 @@ const handleClickShortcut = () => {
       <p
         :id="shortcutId"
         :class="[
-          'cursor-pointer break-words pr-2 pl-2',
+          'cursor-pointer break-words pr-[8px] pl-[8px]',
           'text-[8px]',
           'font-[MSSerif]',
           'text-black',
