@@ -5,6 +5,10 @@ import { useRoute } from 'vue-router'
 const route = useRoute()
 
 const isHome = computed(() => route.path === '/')
+
+const isActive = (path: string) => {
+  return route.path === path
+}
 </script>
 
 <template>
@@ -15,11 +19,23 @@ const isHome = computed(() => route.path === '/')
       <h3 class="headerShowcase">Portfolio '25</h3>
     </div>
     <div class="links">
-      <router-link class="link" to="/">HOME</router-link>
-      <router-link class="link" to="about">SOBRE MÍ</router-link>
-      <router-link class="link" to="experience">EXPERIENCIA</router-link>
-      <router-link :class="['link']" to="projects">PROYECTOS</router-link>
-      <router-link class="link" to="contact">CONTACTO</router-link>
+      <router-link :class="['link', isActive('/') && 'activeLink']" to="/">HOME</router-link>
+
+      <router-link :class="['link', isActive('/about') && 'activeLink']" to="/about"
+        >SOBRE MÍ</router-link
+      >
+
+      <router-link :class="['link', isActive('/experience') && 'activeLink']" to="/experience"
+        >EXPERIENCIA</router-link
+      >
+
+      <router-link :class="['link', isActive('/projects') && 'activeLink']" to="/projects"
+        >PROYECTOS</router-link
+      >
+
+      <router-link :class="['link', isActive('/contact') && 'activeLink']" to="/contact"
+        >CONTACTO</router-link
+      >
     </div>
     <div class="spacer"></div>
   </div>
@@ -94,5 +110,12 @@ const isHome = computed(() => route.path === '/')
 .forHireContainer {
   cursor: pointer;
   width: 100%;
+}
+
+.activeLink {
+  font-weight: bold;
+  color: #ff6f61;
+  border-left: 4px solid #ff6f61;
+  padding-left: 8px;
 }
 </style>
