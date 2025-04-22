@@ -2,7 +2,7 @@
 import ResumeDownload from '@/components/showcase/ResumeDownload.vue'
 import apiSymfony from '@/assets/pictures/api-symfony.png'
 import angularCli from '@/assets/pictures/angular-cli.png'
-
+import portfolio from '@/assets/pictures/portfolio.png'
 </script>
 
 <template>
@@ -15,6 +15,41 @@ import angularCli from '@/assets/pictures/angular-cli.png'
     <br />
     <ResumeDownload />
     <br />
+    <div className="text-block">
+      <h2>Portfolio - OS</h2>
+      <br />
+      <p>
+        Este portafolio ha sido creado para exhibir de forma atractiva mis habilidades y proyectos.
+        Concebido como una plataforma de presentación personal, está dividido en dos secciones; esta
+        primera parte reproduce la estética y la experiencia de Windows 95, dando un toque
+        nostálgico e interactivo a tu recorrido por mi trabajo.
+      </p>
+      <br />
+      <div className="captioned-image">
+        <img :src="portfolio" alt="" />
+        <p class="w-[80%]">
+          <sub> <b>Ejemplo 1:</b> Esta es la página principal. </sub>
+        </p>
+      </div>
+      <br />
+      <h3>Links:</h3>
+      <ul>
+        <li>
+          <a rel="noreferrer" target="_blank" href="https://os.chrisdevstudio.com/">
+            <p><b>[Site]:</b> - os.chrisdevstudio.com/</p>
+          </a>
+        </li>
+        <li>
+          <a
+            rel="noreferrer"
+            target="_blank"
+            href="https://github.com/Porfolio2025/portfolio-inner-page"
+          >
+            <p><b>[GitHub]:</b> - Repositorio OS</p>
+          </a>
+        </li>
+      </ul>
+    </div>
     <div className="text-block">
       <h2>Api Symfony</h2>
       <br />
