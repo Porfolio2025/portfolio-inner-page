@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import ResumeDownload from '@/components/showcase/ResumeDownload.vue'
-import apiSymfony from '@/assets/pictures/api-symfony.png'
-import angularCli from '@/assets/pictures/angular-cli.png'
+// import apiSymfony from '@/assets/pictures/api-symfony.png'
+// import angularCli from '@/assets/pictures/angular-cli.png'
 import portfolio from '@/assets/pictures/portfolio.png'
+import gitlab from '@/assets/pictures/gitlab.png'
 </script>
 
 <template>
@@ -51,6 +52,36 @@ import portfolio from '@/assets/pictures/portfolio.png'
       </ul>
     </div>
     <div className="text-block">
+      <h2>GitLab</h2>
+      <br />
+      <p>
+        He creado un GitLab propio para alojar y gestionar mis proyectos personales, integrándolo en
+        mi portfolio como espacio centralizado para mostrar código, documentación y progreso de
+        desarrollo de cada uno.
+      </p>
+      <br />
+      <div className="captioned-image">
+        <img :src="gitlab" alt="" />
+        <p class="w-[80%]">
+          <sub> <b>Ejemplo 1:</b> Página de login </sub>
+        </p>
+      </div>
+      <br />
+      <h3>Links:</h3>
+      <ul>
+        <li>
+          <a rel="noreferrer" target="_blank" href="https://git.chrisdevstudio.com/">
+            <p><b>[Site]:</b> - git.chrisdevstudio.com/</p>
+          </a>
+        </li>
+
+        <p>User: test</p>
+        <p>Contraseña: userExternal</p>
+      </ul>
+    </div>
+    <!-- TODO:Hay que volver a arrancar los sites -->
+
+    <!-- <div className="text-block">
       <h2>Api Symfony</h2>
       <br />
       <p>
@@ -106,6 +137,6 @@ import portfolio from '@/assets/pictures/portfolio.png'
           </a>
         </li>
       </ul>
-    </div>
+    </div> -->
   </div>
 </template>
