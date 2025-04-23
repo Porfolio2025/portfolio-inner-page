@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import printer from '@/assets/resume/printer.gif'
-import resume from '@/assets/resume/Henry_Heffernan_S22_Resume.pdf'
+import resume from '@/assets/resume/CV.pdf'
 
 defineProps<{ altText?: string }>()
 </script>
