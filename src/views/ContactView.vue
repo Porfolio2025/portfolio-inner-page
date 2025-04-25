@@ -17,7 +17,7 @@
       <br />
       <p>
         <b>Email: </b>
-        <a href="mailto:xhriscarrasc@gmail.com">xhriscarrasc@gmail.com</a>
+        <a href="mailto:christian@chrisdevstudio.com">christian@chrisdevstudio.com</a>
       </p>
       <div class="flex-col mt-[32px]">
         <label>
@@ -100,7 +100,7 @@ const submitForm = async () => {
   }
   try {
     isLoading.value = true
-    const res = await fetch('https://mailer.chrisdevstudio.com/api/contact', {
+    const res = await fetch('http://localhost:3000/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
