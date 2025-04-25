@@ -51,6 +51,8 @@ import gitlab from '@/assets/pictures/gitlab.png'
         </li>
       </ul>
     </div>
+    <div class="my-10 border border-2-black border-l-0"></div>
+
     <div className="text-block">
       <h2>GitLab</h2>
       <br />

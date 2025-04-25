@@ -14,7 +14,7 @@
         tanto como yo disfruté creándolo. Si tienes alguna pregunta o comentario, no dudes en
         contactarme usando
         <router-link to="/contact">este formulario</router-link> o enviame un mail a
-        <a href="mailto:xhriscarrasc@gmail.com">xhriscarrasc@gmail.com</a>
+        <a href="mailto:christian@chrisdevstudio.com">christian@chrisdevstudio.com</a>
       </p>
     </div>
     <ResumeDownload />
@@ -41,7 +41,7 @@
         proyectos, incluidos chatbots, varios proyectos de web, aplicaciones y más.
         <br /><br />
         Todo esto se puede ver en
-        <router-link to="/projects/software">proyectos</router-link>
+        <router-link to="/projects/">proyectos</router-link>
       </p>
       <br /><br />
       <p>
@@ -53,7 +53,7 @@
         Si tienes alguna pregunta o comentario, me encantaría escucharlos. Puedes contactarme a
         través de <router-link to="/contact">contacto</router-link>
         o enviarme un correo electrónico a
-        <a href="mailto:xhriscarrasc@gmail.com">xhriscarrasc@gmail.com</a>
+        <a href="mailto:christian@chrisdevstudio.com">christian@chrisdevstudio.com</a>
       </p>
     </div>
   </div>
