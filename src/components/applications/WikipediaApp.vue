@@ -34,7 +34,7 @@ const { onClose, onInteract, onMinimize } = props
     :left="10"
     :width="width"
     :height="height"
-    windowTitle="Google Explorer"
+    windowTitle="Wikipedia"
     windowBarColor="#1C1C1C"
     windowBarIcon="computerSmall"
     :closeWindow="onClose"
@@ -45,8 +45,8 @@ const { onClose, onInteract, onMinimize } = props
   >
     <div className="site-page">
       <iframe
-        src="https://google.com"
-        title="google"
+        src="https://en.wikipedia.org/wiki/Main_Page"
+        title="Wikipedia"
         width="100%"
         height="100%"
       />

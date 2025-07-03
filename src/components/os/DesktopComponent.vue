@@ -9,7 +9,7 @@ import Doom from '../applications/DoomApp.vue'
 // import OregonTrail from '../applications/OregonTrailApp.vue'
 import Digger from '../applications/DiggerApp.vue'
 // import Scrabble from '../applications/ScrabbleApp.vue'
-import GoogleExplorer from '../applications/GoogleExplorer.vue'
+import WikipediaApp from '../applications/WikipediaApp.vue'
 import ShowcaseApp from '../applications/ShowcaseApp.vue'
 
 const windows = reactive<Record<string, WindowInstance>>({})
@@ -47,9 +47,9 @@ const APPLICATIONS: Record<string, Application> = {
   },
   googleExplorer: {
     key: 'googleExplorer',
-    name: 'Google Explorer',
+    name: 'Wikipedia',
     shortcutIcon: 'computerBig',
-    component: GoogleExplorer,
+    component: WikipediaApp,
   },
   doom: {
     key: 'doom',
