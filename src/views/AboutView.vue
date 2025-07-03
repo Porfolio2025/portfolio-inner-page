@@ -1,3 +1,8 @@
+<script setup lang="ts">
+// import me from '@/assets/pictures/me.png'
+import ResumeDownload from '@/components/showcase/ResumeDownload.vue'
+</script>
+
 <template>
   <div class="site-page-content">
     <h1 style="margin-left: -16px">Bienvenido</h1>
@@ -25,14 +30,13 @@
         Desde muy joven, he sentido curiosidad por cómo funcionan las cosas. Esto me llevó
         naturalmente a obsesionarme con todo lo que tiene que ver con la iformática.
       </p>
-      <br />
-      <img class="h-[500px] w-[500px]" :src="me" alt="" />
-      <p>
+      <!-- <img class="h-[500px] w-[500px]" :src="me" alt="" /> -->
+      <!-- <p>
         <sub>
           <b class="">Foto 1:</b> Es una foto de mi demostrando lo que es capaz la IA de hacer a dia
           de hoy.
         </sub>
-      </p>
+      </p> -->
       <br /><br />
       <p>
         Comencé a programar de manera más seria en la escuela secundaria, aprendiendo inicialmente a
@@ -58,11 +62,6 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import me from '@/assets/pictures/me.png'
-import ResumeDownload from '@/components/showcase/ResumeDownload.vue'
-</script>
 
 <style scoped>
 .site-page-content {
