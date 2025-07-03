@@ -1,71 +1,3 @@
-<template>
-  <div class="site-page-content">
-    <div class="items-end justify-between">
-      <h1>Contacto</h1>
-      <div class="mb-[16px] justify-end">
-        <SocialBox :icon="ghIcon" link="https://github.com/xhris-spec" />
-        <SocialBox :icon="inIcon" link="https://www.linkedin.com/in/christian-carrasco-aa067a267/" />
-        <!-- <SocialBox :icon="twitterIcon" link="" /> -->
-      </div>
-    </div>
-    <div class="text-block">
-      <p>
-        Actualmente estoy empleado, sin embargo, si tienes alguna oportunidad, no dudes en
-        contactarme - ¡Me encantaría conversar! Puedes contactarme a través de mi correo personal o
-        completar el formulario a continuación.
-      </p>
-      <br />
-      <p>
-        <b>Email: </b>
-        <a href="mailto:christian@chrisdevstudio.com">christian@chrisdevstudio.com</a>
-      </p>
-      <div class="flex-col mt-[32px]">
-        <label>
-          <p><span class="pr-[4px] text-[var(--red)]" v-if="!name">*</span><b>Nombre:</b></p>
-        </label>
-        <input v-model="name" class="mt-[4px] mb-[16px]" type="text" placeholder="Nombre" />
-        <label>
-          <p>
-            <span class="pr-[4px] text-[var(--red)]" v-if="!validateEmail(email)">*</span
-            ><b>Email:</b>
-          </p>
-        </label>
-        <input v-model="email" class="mt-[4px] mb-[16px]" type="email" placeholder="Email" />
-        <label>
-          <p><b>Compañia (opcional):</b></p>
-        </label>
-        <input v-model="company" class="mt-[4px] mb-[16px]" type="text" placeholder="Compañia" />
-        <label>
-          <p><span v-if="!message" class="pr-[4px] text-[var(--red)]">*</span><b>Mensaje:</b></p>
-        </label>
-        <textarea v-model="message" class="mt-[4px] mb-[16px]" placeholder="Mensaje"></textarea>
-        <div class="justify-between items-center">
-          <button
-            class="site-button min-w-[184px] h-[32px]"
-            :disabled="!isFormValid || isLoading"
-            @click="submitForm"
-          >
-            {{ isLoading ? 'Enviando...' : 'Enviar mensaje' }}
-          </button>
-          <div class="text-right flex-col items-end pl-[24px]">
-            <p :style="{ color: formMessageColor }">
-              <b
-                ><sub>{{
-                  formMessage ||
-                  'Todos los mensajes serán reenviados directamente a mi correo personal'
-                }}</sub></b
-              >
-            </p>
-            <p>
-              <sub v-if="!isFormValid"><b class="pr-[4px] text-[var(--red)]">*</b> = requerido</sub>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 
@@ -139,6 +71,75 @@ watch(formMessage, (newVal) => {
   }
 })
 </script>
+
+<template>
+  <div class="site-page-content">
+    <div class="items-end justify-between">
+      <h1>Contacto</h1>
+      <div class="mb-[16px] justify-end">
+        <SocialBox :icon="ghIcon" link="https://github.com/xhris-spec" />
+        <SocialBox :icon="inIcon" link="https://www.linkedin.com/in/christian-carrasco-aa067a267/" />
+        <!-- <SocialBox :icon="twitterIcon" link="" /> -->
+      </div>
+    </div>
+    <div class="text-block">
+      <p>
+        Actualmente estoy empleado, sin embargo, si tienes alguna oportunidad, no dudes en
+        contactarme - ¡Me encantaría conversar! Puedes contactarme a través de mi correo personal o
+        completar el formulario a continuación.
+      </p>
+      <br />
+      <p>
+        <b>Email: </b>
+        <a href="mailto:christian@chrisdevstudio.com">christian@chrisdevstudio.com</a>
+      </p>
+      <div class="flex-col mt-[32px]">
+        <label>
+          <p><span class="pr-[4px] text-[var(--red)]" v-if="!name">*</span><b>Nombre:</b></p>
+        </label>
+        <input v-model="name" class="mt-[4px] mb-[16px]" type="text" placeholder="Nombre" />
+        <label>
+          <p>
+            <span class="pr-[4px] text-[var(--red)]" v-if="!validateEmail(email)">*</span
+            ><b>Email:</b>
+          </p>
+        </label>
+        <input v-model="email" class="mt-[4px] mb-[16px]" type="email" placeholder="Email" />
+        <label>
+          <p><b>Compañia (opcional):</b></p>
+        </label>
+        <input v-model="company" class="mt-[4px] mb-[16px]" type="text" placeholder="Compañia" />
+        <label>
+          <p><span v-if="!message" class="pr-[4px] text-[var(--red)]">*</span><b>Mensaje:</b></p>
+        </label>
+        <textarea v-model="message" class="mt-[4px] mb-[16px]" placeholder="Mensaje"></textarea>
+        <div class="justify-between items-center">
+          <button
+            class="site-button min-w-[184px] h-[32px]"
+            :disabled="!isFormValid || isLoading"
+            @click="submitForm"
+          >
+            {{ isLoading ? 'Enviando...' : 'Enviar mensaje' }}
+          </button>
+          <div class="text-right flex-col items-end pl-[24px]">
+            <p :style="{ color: formMessageColor }">
+              <b
+                ><sub>{{
+                  formMessage ||
+                  'Todos los mensajes serán reenviados directamente a mi correo personal'
+                }}</sub></b
+              >
+            </p>
+            <p>
+              <sub v-if="!isFormValid"><b class="pr-[4px] text-[var(--red)]">*</b> = requerido</sub>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 
 <style scoped>
 .site-button {
