@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import printer from '@/assets/resume/printer.gif'
+import resume from '@/assets/resume/CV.pdf'
+
+defineProps<{ altText?: string }>()
+</script>
+
 <template>
   <div
     class="bg-white p-[12px] box-border border border-2-black border-l-0 border-r-0 w-full items-center"
@@ -12,12 +19,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import printer from '@/assets/resume/printer.gif'
-import resume from '@/assets/resume/CV.pdf'
-
-defineProps<{ altText?: string }>()
-</script>
 
 <style scoped>
 /* Agrega estilos adicionales si es necesario */
