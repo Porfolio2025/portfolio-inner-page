@@ -45,8 +45,8 @@ const APPLICATIONS: Record<string, Application> = {
     shortcutIcon: 'showcaseIcon',
     component: ShowcaseApp,
   },
-  googleExplorer: {
-    key: 'googleExplorer',
+  wikipeda: {
+    key: 'wikipeda',
     name: 'Wikipedia',
     shortcutIcon: 'computerBig',
     component: WikipediaApp,
