@@ -5,6 +5,34 @@ import ResumeDownload from '@/components/showcase/ResumeDownload.vue'
 <template>
   <div class="site-page-content">
     <ResumeDownload />
+
+    <!-- Kettal -->
+    <div class="header-container">
+      <div class="header">
+        <div class="header-row">
+          <h1>Kettal</h1>
+          <a rel="noreferrer" target="_blank" href="https://www.kettal.com/">
+            <h4>www.kettal.com</h4>
+          </a>
+        </div>
+        <div class="header-row">
+          <h3>Full Stack Developer</h3>
+          <b>
+            <p>August 2025 - Present</p>
+          </b>
+        </div>
+      </div>
+    </div>
+    <div class="text-block">
+      <p>
+        At Kettal, I continue developing as a Full Stack Developer, working with modern
+        technologies. On the Front End, I use JavaScript, TypeScript, and Vue.js, while on the Back
+        End I work with .NET, Docker, and MySQL. This role allows me to strengthen my development
+        skills while contributing to high-quality projects.
+      </p>
+    </div>
+    <hr class="separator" />
+    <!-- Iquadrat -->
     <div class="header-container">
       <div class="header">
         <div class="header-row">
@@ -14,19 +42,19 @@ import ResumeDownload from '@/components/showcase/ResumeDownload.vue'
           </a>
         </div>
         <div class="header-row">
-          <h3>Desarrollador Full Stack</h3>
+          <h3>Full Stack Developer</h3>
           <b>
-            <p>Agosto 2023 - Actualmente</p>
+            <p>August 2023 - July 2025</p>
           </b>
         </div>
       </div>
     </div>
     <div class="text-block">
       <p>
-        Iquadrat es una empresa que me ha formado como desarrollador y me ha brindado la oportunidad
-        de conocer y aprender una gran cantidad de lenguajes. He desarrollado en JavaScript,
-        TypeScript, VueJs, DevExtreme en el ambito de Front End y en el ambito de Back End he
-        trabajado con PHP, Symfony, Docker y MySQL.
+        Iquadrat is a company that has helped me grow as a developer and provided me the opportunity
+        to learn and work with a wide range of languages and technologies. I have developed in
+        JavaScript, TypeScript, Vue.js, and DevExtreme on the Front End, and on the Back End I have
+        worked with PHP, Symfony, Docker, and MySQL.
       </p>
     </div>
   </div>
@@ -66,5 +94,12 @@ import ResumeDownload from '@/components/showcase/ResumeDownload.vue'
 .hover-logo {
   height: 32px;
   margin-bottom: 16px;
+}
+
+.separator {
+  border: none;
+  height: 1px;
+  background-color: var(--accent-color, #ccc);
+  margin: 32px 0;
 }
 </style>

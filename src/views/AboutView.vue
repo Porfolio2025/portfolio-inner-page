@@ -5,59 +5,58 @@ import ResumeDownload from '@/components/showcase/ResumeDownload.vue'
 
 <template>
   <div class="site-page-content">
-    <h1 style="margin-left: -16px">Bienvenido</h1>
-    <h3>Soy Christian Carrasco</h3>
+    <h1 style="margin-left: -16px">Welcome</h1>
+    <h3>I am Christian Carrasco</h3>
     <br />
     <div class="text-block">
       <p>
-        Soy desarrollador Full Staclk y actualmente trabajo en Iquadrat En junio de 2023, me gradué
-        de la Academia CEFP Núria con una licenciatura en Desarrollo de Apliaciones Web.
+        I am a Full Stack Developer and currently work at Iquadrat. In June 2023, I graduated from
+        CEFP Núria Academy with a degree in Web Application Development.
       </p>
       <br />
       <p>
-        Gracias por tomarte el tiempo de visitar mi portafolio. Espero que disfrutes explorándolo
-        tanto como yo disfruté creándolo. Si tienes alguna pregunta o comentario, no dudes en
-        contactarme usando
-        <router-link to="/contact">este formulario</router-link> o enviame un mail a
-        <a href="mailto:christian@chrisdevstudio.com">christian@chrisdevstudio.com</a>
+        Thank you for taking the time to visit my portfolio. I hope you enjoy exploring it as much
+        as I enjoyed creating it. If you have any questions or comments, feel free to contact me
+        using
+        <router-link to="/contact">this form</router-link> or send me an email at
+        <a href="mailto:christian@chrisdevstudio.com">xhriscarrasc@gmail.com</a>
       </p>
     </div>
     <ResumeDownload />
     <div class="text-block">
-      <h3>Sobre mí</h3>
+      <h3>About Me</h3>
       <br />
       <p>
-        Desde muy joven, he sentido curiosidad por cómo funcionan las cosas. Esto me llevó
-        naturalmente a obsesionarme con todo lo que tiene que ver con la iformática.
+        From a very young age, I have been curious about how things work. This naturally led me to
+        become obsessed with everything related to computers.
       </p>
       <!-- <img class="h-[500px] w-[500px]" :src="me" alt="" /> -->
       <!-- <p>
         <sub>
-          <b class="">Foto 1:</b> Es una foto de mi demostrando lo que es capaz la IA de hacer a dia
-          de hoy.
+          <b class="">Photo 1:</b> A photo of me demonstrating what AI is capable of today.
         </sub>
       </p> -->
       <br /><br />
       <p>
-        Comencé a programar de manera más seria en la escuela secundaria, aprendiendo inicialmente a
-        hacer web scraping e interactuar con sitios web. Luego, me dediqué a muchos proyectos
-        apasionante como desarrollar un bot en la plataforma discord. He trabajado en muchos
-        proyectos, incluidos chatbots, varios proyectos de web, aplicaciones y más.
+        I started programming more seriously in high school, initially learning how to do web
+        scraping and interact with websites. Later, I dedicated myself to many exciting projects
+        such as developing a bot for the Discord platform. I have worked on many projects, including
+        chatbots, various web projects, applications, and more.
         <br /><br />
-        Todo esto se puede ver en
-        <router-link to="/projects/">proyectos</router-link>
+        All of this can be seen in
+        <router-link to="/projects/">projects</router-link>
       </p>
       <br /><br />
       <p>
-        ¡Gracias por tomarte el tiempo de leer sobre mí! Espero que disfrutes explorando el resto de
-        mi portafolio y todo lo que tiene para ofrecer.
+        Thank you for taking the time to read about me! I hope you enjoy exploring the rest of my
+        portfolio and everything it has to offer.
       </p>
       <br />
       <p>
-        Si tienes alguna pregunta o comentario, me encantaría escucharlos. Puedes contactarme a
-        través de <router-link to="/contact">contacto</router-link>
-        o enviarme un correo electrónico a
-        <a href="mailto:christian@chrisdevstudio.com">christian@chrisdevstudio.com</a>
+        If you have any questions or comments, I would love to hear them. You can contact me via
+        <router-link to="/contact">contact</router-link>
+        or send me an email at
+        <a href="mailto:christian@chrisdevstudio.com">xhriscarrasc@gmail.com</a>
       </p>
     </div>
   </div>

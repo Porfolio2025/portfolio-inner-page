@@ -11,15 +11,14 @@ defineProps<{ altText?: string }>()
   >
     <img class="w-[56px] h-[48px] pr-[24px]" :src="printer" alt="" />
     <div class="flex-col">
-      <h3>{{ altText || 'Estas buscando un resumen?' }}</h3>
+      <h3>{{ altText || 'Looking for a resume?' }}</h3>
       <a :href="resume" target="_blank" rel="noreferrer">
-        <p>Haz click para descargarlo!</p>
+        <p>Click here to download it!</p>
       </a>
     </div>
   </div>
 </template>
 
-
 <style scoped>
-/* Agrega estilos adicionales si es necesario */
+/* Add additional styles if needed */
 </style>

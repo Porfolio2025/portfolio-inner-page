@@ -22,19 +22,19 @@ const isActive = (path: string) => {
       <router-link :class="['link', isActive('/') && 'activeLink']" to="/">HOME</router-link>
 
       <router-link :class="['link', isActive('/about') && 'activeLink']" to="/about"
-        >SOBRE MÍ</router-link
+        >ABOUT ME</router-link
       >
 
       <router-link :class="['link', isActive('/experience') && 'activeLink']" to="/experience"
-        >EXPERIENCIA</router-link
+        >EXPERIENCE</router-link
       >
 
       <router-link :class="['link', isActive('/projects') && 'activeLink']" to="/projects"
-        >PROYECTOS</router-link
+        >PROJECTS</router-link
       >
 
       <router-link :class="['link', isActive('/contact') && 'activeLink']" to="/contact"
-        >CONTACTO</router-link
+        >CONTACT</router-link
       >
     </div>
     <div class="spacer"></div>

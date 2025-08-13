@@ -7,10 +7,10 @@
       <h2>Full Stack Developer</h2>
     </div>
     <div class="justify-between">
-      <RouterLink class="p-[16px]" to="/about">SOBRE MÍ</RouterLink>
-      <RouterLink class="p-[16px]" to="/experience">EXPERIENCIA</RouterLink>
-      <RouterLink class="p-[16px]" to="/projects">PROYECTOS</RouterLink>
-      <RouterLink class="p-[16px]" to="/contact">CONTACTO</RouterLink>
+      <RouterLink class="p-[16px]" to="/about">ABOUT ME</RouterLink>
+      <RouterLink class="p-[16px]" to="/experience">EXPERIENCE</RouterLink>
+      <RouterLink class="p-[16px]" to="/projects">PROJECTS</RouterLink>
+      <RouterLink class="p-[16px]" to="/contact">CONTACT</RouterLink>
     </div>
   </div>
 </template>
